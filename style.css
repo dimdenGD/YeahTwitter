@@ -1,0 +1,105 @@
+/* Light mode */
+body {
+    --modal-background-color: rgb(255, 255, 255);
+    --modal-text-color: rgb(0, 0, 0);
+}
+
+/* Dark mode */
+body[style^="background-color: rgb(21, 32, 43);"] {
+    --modal-background-color: rgb(21, 32, 43);
+    --modal-text-color: rgb(255, 255, 255);
+}
+/* Pitch black mode */
+body[style^="background-color: rgb(0, 0, 0);"] {
+    --modal-background-color: rgb(0, 0, 0);
+    --modal-text-color: rgb(255, 255, 255);
+}
+
+.yeah-button-container {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.yeah-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.yeah-button > img {
+    width: 24px;
+    height: 24px;
+}
+
+.yeah-counter {
+    color: #71767b;
+    margin-left: 5px;
+    vertical-align: super;
+}
+
+
+.yeah-button:hover .yeah-counter {
+    color: #4cd200;
+}
+
+
+.modal {
+    position: fixed;
+    z-index: 200;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    width: fit-content;
+    min-width: 500px;
+    max-width: 700px;
+    margin: auto;
+    border-radius: 5px;
+    border: 1px solid var(--modal-background-color);
+    background-color: var(--modal-background-color);
+    padding: 20px;
+    top: 20%;
+    position: relative;
+    max-height: 60%;
+    overflow-y: inherit;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    animation: opac 0.2s ease-in-out;
+}
+@keyframes opac {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+.modal-close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    top: 0;
+    right: 5px;
+    position: absolute;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: var(--default-text-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.error-message {
+    color: red;
+}
