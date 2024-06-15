@@ -101,6 +101,14 @@ async function callYeahApi(path, body = {}) {
     return await res.text();
 }
 
+function formatLargeNumber(n) {
+    let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
+    if (n >= 1e4) {
+        return Number(n).toLocaleString('en-US', option);
+    }
+    else return Number(n).toLocaleString();
+}
+
 if(!localStorage.yeahToken) {
     let modalOpenTime = Date.now();
     let modal = createModal(/*html*/`
@@ -123,7 +131,7 @@ if(!localStorage.yeahToken) {
         <div>
             <button class="auth-button">Authentificate</button>
         </div>
-    `, 'welcome-modal', () => {}, () => Date.now() - modalOpenTime > 2000);
+    `, 'welcome-modal', () => {}, () => Date.now() - modalOpenTime > 1250);
 
     let button = modal.querySelector('.auth-button');
     button.addEventListener('click', async () => {
@@ -214,6 +222,7 @@ if(!localStorage.yeahToken) {
     });
 }
 
+let fetchQueue = [];
 function hookIntoTweets() {
     let tweets = document.getElementsByTagName('article');
 
@@ -227,19 +236,41 @@ function hookIntoTweets() {
         let id = linkToTweet.href.match(/\/status\/(\d+)/)[1];
         if(!id) continue;
 
+        fetchQueue.push(id);
+
         let div = document.createElement('div');
         let button = document.createElement('button');
+        button.dataset.count = 0;
         button.addEventListener('click', () => {
-            console.log('Yeahed!');
+            if(!button.classList.contains('yeahed')) {
+                callYeahApi('/yeah', {
+                    post_id: id
+                });
+                button.querySelector('.yeah-image').src = chrome.runtime.getURL('images/yeah_on32.png');
+                let yeahCounter = button.querySelector('.yeah-counter');
+                let count = parseInt(button.dataset.count);
+                yeahCounter.innerText = formatLargeNumber(count + 1);
+                button.dataset.count = count + 1;
+                button.classList.add('yeahed');
+            } else {
+                callYeahApi('/unyeah', {
+                    post_id: id
+                });
+                button.classList.remove('yeahed');
+                let yeahCounter = button.querySelector('.yeah-counter');
+                let count = parseInt(button.dataset.count);
+                yeahCounter.innerText = formatLargeNumber(count - 1);
+                button.dataset.count = count - 1;
+                if(count - 1 <= 0) yeahCounter.innerText = '';
+            }
         });
         button.addEventListener('mouseover', () => {
             button.querySelector('.yeah-image').src = chrome.runtime.getURL('images/yeah_on32.png');
         });
         button.addEventListener('mouseout', () => {
-            button.querySelector('.yeah-image').src = chrome.runtime.getURL('images/yeah_off32.png');
+            if(!button.classList.contains('yeahed')) button.querySelector('.yeah-image').src = chrome.runtime.getURL('images/yeah_off32.png');
         });
-        button.id = `yeah-button-${id}`;
-        button.className = 'yeah-button';
+        button.className = `yeah-button yeah-button-${id}`;
         div.className = 'yeah-button-container';
 
         let img = document.createElement('img');
@@ -258,6 +289,44 @@ function hookIntoTweets() {
         if(group && group.children && group.children[3]) group.children[3].after(div);
     }
 }
+
+function updateButton(data) {
+    if(!data) return;
+    let buttons = Array.from(document.getElementsByClassName(`yeah-button-${data.post_id}`));
+    for(let button of buttons) {
+        if(data.yeahed) {
+            button.classList.add('yeahed');
+            button.querySelector('.yeah-image').src = chrome.runtime.getURL('images/yeah_on32.png');
+        } else {
+            button.classList.remove('yeahed');
+            button.querySelector('.yeah-image').src = chrome.runtime.getURL('images/yeah_off32.png');
+        }
+        button.dataset.count = data.count;
+
+        let counter = button.querySelector('.yeah-counter');
+        counter.innerText = data.count === 0 ? '' : formatLargeNumber(data.count);
+    }
+}
+
+let tweetCache = {};
+setInterval(async() => {
+    if(fetchQueue.length > 0 && localStorage.yeahToken) {
+        let first100 = fetchQueue.splice(0, 100);
+        let cachedData = first100.map(id => tweetCache[id]);
+        for(let cache of cachedData) {
+            updateButton(cache);
+        }
+        first100 = first100.filter((id, i) => !cachedData[i]);
+        if(!first100.length) return;
+        let data = JSON.parse(await callYeahApi('/get', {
+            post_ids: first100.join(',')
+        }));
+        for(let id in data) {
+            tweetCache[id] = data[id];
+            updateButton(data[id]);
+        }
+    }
+}, 1000);
 
 hookIntoTweets();
 setInterval(hookIntoTweets, 500);

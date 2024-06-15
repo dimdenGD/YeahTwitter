@@ -41,7 +41,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
 }
 
 
-.yeah-button:hover .yeah-counter {
+.yeah-button:hover .yeah-counter, .yeahed .yeah-counter {
     color: #4cd200;
 }
 
