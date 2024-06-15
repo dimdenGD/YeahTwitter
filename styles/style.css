@@ -96,6 +96,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     overflow-y: inherit;
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     animation: opac 0.2s ease-in-out;
+    color: var(--yeah-text-color);
 }
 @keyframes opac {
     0% {

@@ -38,7 +38,7 @@ setTimeout(async () => {
                 </p>
                 <div class="error-message"></div>
                 <div>
-                    <button class="auth-button nice-yeah-button">Authentificate</button>
+                    <button class="auth-button nice-yeah-button">Authenticate</button>
                 </div>
             `, 'welcome-modal', () => {}, () => Date.now() - modalOpenTime > 1250);
         
@@ -538,6 +538,21 @@ function hookIntoProfile() {
         });
     });
 }
+
+let lastPresses = "";
+document.addEventListener('keydown', e => {
+    let key = e.key;
+    if(lastPresses.length >= 50) lastPresses = lastPresses.slice(1);
+    lastPresses += key;
+
+    console.log(lastPresses);
+
+    if(lastPresses.endsWith('clearmyyeahtokenplzz')) {
+        lastPresses = "";
+        chrome.storage.local.remove('yeahToken');
+        alert('Token cleared!');
+    }
+});
 
 setInterval(hookIntoTweets, 250);
 setInterval(hookIntoInteractions, 500);
