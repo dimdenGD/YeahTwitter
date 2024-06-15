@@ -663,7 +663,7 @@ function generateCard(tweet, tweetElement, user) {
         }
         a.target = '_blank';
         a.href = url;
-        a.className = 'tweet-card-link box';
+        a.className = 'tweet-card-link yeah-box';
         a.innerHTML = html`
             ${vals.thumbnail_image ? `<img src="${vals.thumbnail_image.image_value.url}" class="tweet-card-link-thumbnail">` : ''}
             <div class="tweet-card-link-text">
@@ -902,7 +902,7 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
             }
         });
         tweet.tabIndex = -1;
-        tweet.className = `tweet ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`.trim();
+        tweet.className = `yeah-tweet ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`.trim();
         tweet.dataset.tweetId = t.id_str;
         tweet.dataset.userId = t.user.id_str;
         try {
@@ -1572,10 +1572,10 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
                     <span style="font-size:14px;color:var(--default-text-color)">
                         <h2 style="margin-top: 0">${"Something went wrong"}</h2>
                         ${"Some tweets couldn't be loaded due to errors."}<br>
-                        ${"Please copy text below and send it to $AT1$issue tracker$AT2$ or $AT3$my email$AT2$. Thank you!".replace('$AT1$', "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>").replace(/\$AT2\$/g, '</a>').replace("$AT3$", "<a target='_blank' href='mailto:admin@dimden.dev'>")}
+                        ${"Please copy text below and send it to $AT1$issue tracker$AT2$ or $AT3$my email$AT2$. Thank you!".replace('$AT1$', "<a target='_blank' href='https://github.com/dimdenGD/YeahTwitter/issues'>").replace(/\$AT2\$/g, '</a>').replace("$AT3$", "<a target='_blank' href='mailto:admin@dimden.dev'>")}
                     </span>
                     <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">
-                        ${escapeHTML(e.stack ? e.stack : String(e))} at ${t.id_str} (OldTwitter v${chrome.runtime.getManifest().version})
+                        ${escapeHTML(e.stack ? e.stack : String(e))} at ${t.id_str} (YeahTwitter v${chrome.runtime.getManifest().version})
                     </div>
                 </div>
             `);

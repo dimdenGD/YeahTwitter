@@ -137,8 +137,8 @@ async function appendUser(u, container, label) {
             <a href="/${u.screen_name}" class="user-item-link" target="_blank">
                 <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
-                    <span class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.muting ? ' user-muted' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
-                    <span class="tweet-header-handle">@${u.screen_name}</span>
+                    <span class="yeah-name user-item-name${u.protected ? ' user-protected' : ''}${u.muting ? ' user-muted' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
+                    <span class="yeah-handle">@${u.screen_name}</span>
                     ${u.followed_by ? `<span class="follows-you-label">Follows you</span>` : ''}
                     ${label ? `<br><span class="user-item-additional">${escapeHTML(label)}</span>` : ''}
                 </div>

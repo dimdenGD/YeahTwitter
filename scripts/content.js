@@ -144,9 +144,11 @@ function hookIntoTweets() {
         tweet.dataset.yeahed = true;
 
         let linkToTweet = Array.from(tweet.querySelectorAll('a[role="link"]')).find(a => a.href.includes('/status/'));
+        let oldTwitter = false;
         if(!linkToTweet) {
-            let tweetDiv = tweet.closest('.tweet');
+            let tweetDiv = tweet.closest('.tweet, .yeah-tweet');
             if(tweetDiv) {
+                oldTwitter = true;
                 linkToTweet = tweetDiv.querySelector('.tweet-time');
             } else {
                 continue;
@@ -221,6 +223,9 @@ function hookIntoTweets() {
         let counter = document.createElement('span');
         counter.className = 'yeah-counter';
         counter.innerText = tweetCache[id] && tweetCache[id].count ? formatLargeNumber(tweetCache[id].count) : '';
+        if(oldTwitter) {
+            counter.classList.add('yeah-counter-oldtwitter');
+        }
         
         button.appendChild(counter);
         div.appendChild(button);
@@ -440,8 +445,8 @@ function hookIntoProfile() {
 
         setTimeout(() => {
             let avatar = document.getElementById('profile-avatar');
-            if(!avatar) return;
-            let id = avatar.src.match(/\/profile_images\/(\d+)\//)[1];
+            if(!avatar || !avatar.dataset.user_id) return;
+            let id = avatar.dataset.user_id;
             callYeahApi('/get_user_yeah_count', {
                 user_id: id
             }).then(data => {

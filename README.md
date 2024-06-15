@@ -68,4 +68,4 @@ Will return an array with tweet ids.
 
 ### Get how many tweets user Yeahed - `/api/get_user_yeah_count`
 Requires body: `{ user_id: String, key: private_token }`.  
-Will return `{ count: Number}`.  
+Will return `{ count: Number }`.  

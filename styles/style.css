@@ -1,24 +1,24 @@
 /* Light mode */
 body {
-    --background-color: rgb(255, 255, 255);
-    --text-color: rgb(0, 0, 0);
-    --hover-color: #f7f9f9;
-    --tab-color: #536471;
+    --yeah-background-color: rgb(255, 255, 255);
+    --yeah-text-color: rgb(0, 0, 0);
+    --yeah-hover-color: #f7f9f9;
+    --yeah-tab-color: #536471;
 }
 
 /* Dark mode */
 body[style^="background-color: rgb(21, 32, 43);"] {
-    --background-color: rgb(21, 32, 43);
-    --text-color: rgb(255, 255, 255);
-    --hover-color: #1e2732;
-    --tab-color: #8b98a5;
+    --yeah-background-color: rgb(21, 32, 43);
+    --yeah-text-color: rgb(255, 255, 255);
+    --yeah-hover-color: #1e2732;
+    --yeah-tab-color: #8b98a5;
 }
 /* Pitch black mode */
 body[style^="background-color: rgb(0, 0, 0);"] {
-    --background-color: rgb(0, 0, 0);
-    --text-color: rgb(255, 255, 255);
-    --hover-color: #181818;
-    --tab-color: rgb(113, 118, 123);
+    --yeah-background-color: rgb(0, 0, 0);
+    --yeah-text-color: rgb(255, 255, 255);
+    --yeah-hover-color: #181818;
+    --yeah-tab-color: rgb(113, 118, 123);
 }
 
 .yeah-button-container {
@@ -58,6 +58,11 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     font-size: 14px;
 }
 
+.yeah-counter-oldtwitter {
+    top: 0 !important;
+    font-family: var(--font);
+}
+
 
 .yeah-button:hover .yeah-counter, .yeahed .yeah-counter {
     color: #4cd200;
@@ -83,7 +88,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     margin: auto;
     border-radius: 5px;
     border: #383838 1px solid;
-    background-color: var(--background-color);
+    background-color: var(--yeah-background-color);
     padding: 20px;
     top: 20%;
     position: relative;
@@ -113,7 +118,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
 
 .yeah-modal-close:hover,
 .yeah-modal-close:focus {
-    color: var(--default-text-color);
+    color: var(--yeah-default-text-color);
     text-decoration: none;
     cursor: pointer;
 }
@@ -142,7 +147,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     text-decoration: none;
     z-index: 0;
     cursor: pointer;
-    color: var(--tab-color);
+    color: var(--yeah-tab-color);
 }
 
 .yeah-tab.active {
@@ -151,7 +156,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
 }
 
 .yeah-tab:hover {
-    background-color: var(--hover-color);
+    background-color: var(--yeah-hover-color);
 }
 
 .yeah-tab > span {
@@ -180,24 +185,24 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     position: relative;
     bottom: 52px;
     height: 40px;
-    background-color: var(--text-color);
+    background-color: var(--yeah-text-color);
     border-radius: 50px;
     border: none;
     padding: 0 20px;
     cursor: pointer;
-    color: var(--background-color);
+    color: var(--yeah-background-color);
     transition: background-color 0.2s;
     font-weight: bold;
     font-size: 15px;
 }
 
 .nice-yeah-button {
-    background-color: var(--text-color);
+    background-color: var(--yeah-text-color);
     border-radius: 50px;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    color: var(--background-color);
+    color: var(--yeah-background-color);
     transition: background-color 0.2s;
     font-weight: bold;
     font-size: 15px;
@@ -226,7 +231,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     font-size: 11px;
     letter-spacing: .02em;
     text-transform: uppercase;
-    color: var(--text-color);
+    color: var(--yeah-text-color);
     background: rgba(0, 0, 0, 0.08);
     width: fit-content;
     padding: 3px 7px;
@@ -236,13 +241,13 @@ body[style^="background-color: rgb(0, 0, 0);"] {
 .user-item-additional {
     font-size: 14px;
 }
-.tweet-header-name {
+.yeah-name {
     display: inline;
     font-weight: bold;
-    color: var(--text-color);
+    color: var(--yeah-text-color);
     font-size: 16px;
 }
-.tweet-header-handle {
+.yeah-username {
     display: inline;
     direction: ltr;
     unicode-bidi: embed;
