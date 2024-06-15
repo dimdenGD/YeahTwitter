@@ -7,14 +7,14 @@ body {
 }
 
 /* Dark mode */
-body[style^="background-color: rgb(21, 32, 43);"] {
+body[style^="background-color: rgb(21, 32, 43);"], body.body-dark {
     --yeah-background-color: rgb(21, 32, 43);
     --yeah-text-color: rgb(255, 255, 255);
     --yeah-hover-color: #1e2732;
     --yeah-tab-color: #8b98a5;
 }
 /* Pitch black mode */
-body[style^="background-color: rgb(0, 0, 0);"] {
+body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     --yeah-background-color: rgb(0, 0, 0);
     --yeah-text-color: rgb(255, 255, 255);
     --yeah-hover-color: #181818;
@@ -178,6 +178,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
 .yeah-users h3, .yeah-posts h3 {
     margin-top: 0;
     font-size: 24px;
+    color: var(--yeah-text-color);
 }
 
 .user-item-btn {

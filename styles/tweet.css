@@ -42,7 +42,7 @@ body {
 }
 
 /* Dark mode */
-body[style^="background-color: rgb(21, 32, 43);"] {
+body[style^="background-color: rgb(21, 32, 43);"], body.body-dark {
     --yeah-background-color: #1b2836;
     --yeah-dark-background-color: #171f2a;
     --yeah-darker-background-color: #141d26;
@@ -62,7 +62,7 @@ body[style^="background-color: rgb(21, 32, 43);"] {
 }
 
 /* Pitch black mode */
-body[style^="background-color: rgb(0, 0, 0);"] {
+body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     --yeah-background-color: #000000;
     --yeah-dark-background-color: #000000;
     --yeah-darker-background-color: #000000;
@@ -278,18 +278,6 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     object-fit: var(--yeah-video-cover);
 }
 
-.center-text {
-    background-color: var(--yeah-background-color);
-    border: 1px solid var(--yeah-border);
-    border-radius: 5px;
-    color: var(--yeah-light-gray);
-    cursor: pointer;
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding: 10px;
-    text-align: center
-}
-
 .tweet-media-element-censor {
     -moz-filter: blur(20px);
     -webkit-filter: blur(20px);
@@ -297,14 +285,9 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     filter: blur(20px);
     transform: scale(1.03)
 }
-a:hover,
-.tweet-header-info:hover,
-.tweet-body-text a:hover,
-.center-text:hover,
-#wtf-refresh:hover,
-#wtf-viewall:hover,
-#trends-refresh:hover,
-#trends-viewall:hover {
+.yeah-tweet a:hover,
+.yeah-tweet .tweet-header-info:hover,
+.yeah-tweet .tweet-body-text a:hover {
     text-decoration: underline
 }
 

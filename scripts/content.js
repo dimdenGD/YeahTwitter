@@ -222,7 +222,7 @@ function hookIntoTweets() {
 
         let counter = document.createElement('span');
         counter.className = 'yeah-counter';
-        counter.innerText = tweetCache[id] && tweetCache[id].count ? formatLargeNumber(tweetCache[id].count) : '';
+        counter.innerText = tweetCache[id] && typeof tweetCache[id].count === 'number' ? formatLargeNumber(tweetCache[id].count) : '';
         if(oldTwitter) {
             counter.classList.add('yeah-counter-oldtwitter');
         }
@@ -321,7 +321,7 @@ function hookIntoInteractions() {
 
         let b = document.createElement('b');
         let id = location.pathname.match(/\/status\/(\d+)/)[1];
-        b.innerText = tweetCache[id] && tweetCache[id].count ? formatLargeNumber(tweetCache[id].count) : '?';
+        b.innerText = tweetCache[id] && typeof tweetCache[id].count === 'number' ? formatLargeNumber(tweetCache[id].count) : '?';
         b.className = 'tweet-footer-stat-count';
 
         yeahTab.appendChild(span);
