@@ -138,7 +138,6 @@ function hookIntoTweets() {
 
         let div = document.createElement('div');
         let button = document.createElement('button');
-        console.log(1, tweetCache[id]);
         button.dataset.count = tweetCache[id] ? tweetCache[id].count : 0;
         button.addEventListener('click', () => {
             if(!button.classList.contains('yeahed')) {
@@ -151,6 +150,10 @@ function hookIntoTweets() {
                 yeahCounter.innerText = formatLargeNumber(count + 1);
                 button.dataset.count = count + 1;
                 button.classList.add('yeahed');
+                if(tweetCache[id]) {
+                    tweetCache[id].yeahed = true;
+                    tweetCache[id].count++;
+                }
             } else {
                 callYeahApi('/unyeah', {
                     post_id: id
@@ -161,6 +164,11 @@ function hookIntoTweets() {
                 yeahCounter.innerText = formatLargeNumber(count - 1);
                 button.dataset.count = count - 1;
                 if(count - 1 <= 0) yeahCounter.innerText = '';
+                if(tweetCache[id]) {
+                    tweetCache[id].yeahed = false;
+                    tweetCache[id].count--;
+                    if(tweetCache[id].count < 0) tweetCache[id].count = 0;
+                }
             }
         });
         button.addEventListener('mouseover', () => {
@@ -209,6 +217,7 @@ function updateButton(data) {
 }
 
 let tweetCache = {};
+setInterval(() => tweetCache = {}, 1000 * 60 * 20);
 setInterval(async() => {
     if(fetchQueue.length > 0 && localStorage.yeahToken) {
         let first100 = fetchQueue.splice(0, 100);
@@ -218,6 +227,13 @@ setInterval(async() => {
         }
         first100 = first100.filter((id) => !tweetCache[id]);
         if(!first100.length) return;
+        for(let id of first100) {
+            tweetCache[id] = {
+                post_id: id,
+                yeahed: false,
+                count: 0
+            };
+        }
         let data = JSON.parse(await callYeahApi('/get', {
             post_ids: first100.join(',')
         }));
