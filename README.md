@@ -35,14 +35,17 @@ All requests use POST method.
 All requests require Content-Type: `application/json`.  
   
 ### Request Token - `/api/request_token`
-Returns `{ public_token: String, private_token: String }`. You need to make user tweet `yeah-xxxxxxxx` where `xxxxxxxx` is public token.
+Returns `{ public_token: String, private_token: String }`.  
+You need to make user tweet `yeah-xxxxxxxx` where `xxxxxxxx` is public token.
 
 ### Verify Token - `/api/verify_token`
-Requires body: `{ public_token: String, private_token: String, tweet: Tweet }`. `Tweet` is object of [this format](https://developer.x.com/en/docs/twitter-api/v1/data-dictionary/object-model/tweet). Must also include `user` object inside with `id_str`.  
+Requires body: `{ public_token: String, private_token: String, tweet: Tweet }`.  
+`Tweet` is object of [this format](https://developer.x.com/en/docs/twitter-api/v1/data-dictionary/object-model/tweet). Must also include `user` object inside with `id_str`.  
 Will reply with `success` if everything went correctly. After that you can save `private_token` somewhere to use in other requests.
 
 ### Get Yeah data for tweets - `/api/get`
-Requires body: `{ post_ids: String, key: private_token }`. `post_ids` is string of tweet IDs separated by comma. Max 100 tweets per request.  
+Requires body: `{ post_ids: String, key: private_token }`.  
+`post_ids` is string of tweet IDs separated by comma. Max 100 tweets per request.  
 Will return `[ { post_id: String, count: Number, yeahed: Boolean }, ... ]`.  
 
 ### Yeah a tweet - `/api/yeah`
@@ -50,17 +53,19 @@ Requires body: `{ post_id: String, key: private_token }`.
 Will reply with `done` if everything went fine.  
 
 ### Unyeah a tweet - `/api/unyeah`
-Requires body: `{ post_id: String, key: private_token }`.
+Requires body: `{ post_id: String, key: private_token }`.  
 Will reply with `done` if everything went fine.
 
 ### Get users that Yeahed a tweet - `/api/get_users`
-Requires body: `{ post_id: String, key: private_token }`.
+Requires body: `{ post_id: String, key: private_token, page: Number }`.  
+`page` starts with 1.  
 Will return an array with user ids.  
 
 ### Get tweets that user Yeahed - `/api/get_yeahs`
-Requires body: `{ user_id: String, key: private_token }`.
-Will return an array with tweet ids.
+Requires body: `{ user_id: String, key: private_token, page: Number }`.  
+`page` starts with 1.  
+Will return an array with tweet ids.  
 
 ### Get how many tweets user Yeahed - `/api/get_user_yeah_count`
-Requires body: `{ user_id: String, key: private_token }`.
+Requires body: `{ user_id: String, key: private_token }`.  
 Will return `{ count: Number}`.  
