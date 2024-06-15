@@ -67,7 +67,7 @@ async function callTwitterApi(method = 'GET', path, headers = {}, body) {
     headers['x-twitter-active-user'] = 'yes';
     headers['x-twitter-client-language'] = 'en';
 
-    let res = await fetch(`/i/api${path}`, {
+    let res = await fetch(`https://${location.hostname}/i/api${path}`, {
         method,
         headers,
         body
@@ -81,7 +81,9 @@ async function callTwitterApi(method = 'GET', path, headers = {}, body) {
 };
 
 async function callYeahApi(path, body = {}) {
-    if(localStorage.yeahToken) body.key = localStorage.yeahToken;
+    let token = await getYeahToken();
+    if(token) body.key = token;
+
     const res = await fetch(API_URL + path, {
         method: 'POST',
         headers: {
@@ -92,11 +94,23 @@ async function callYeahApi(path, body = {}) {
     let result = await res.text();
 
     if(result === 'Invalid key') {
-        delete localStorage.yeahToken;
+        chrome.storage.local.remove('yeahToken');
         throw new Error('Invalid key');
     }
 
     return result;
+}
+
+function getYeahToken() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get('yeahToken', result => {
+            if(result) {
+                resolve(result.yeahToken);
+            } else {
+                resolve(null);
+            } 
+        });
+    });
 }
 
 function formatLargeNumber(n) {

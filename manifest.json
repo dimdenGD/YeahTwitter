@@ -4,14 +4,17 @@
   "version": "0.0.1",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/YeahTwitter",
-  "permissions": [],
+  "permissions": [
+    "storage"
+  ],
   "host_permissions": [
     "*://*.twitter.com/*",
     "*://twitter.com/*",
     "*://twimg.com/*",
     "*://*.twimg.com/*",
     "*://x.com/*",
-    "*://*.x.com/*"
+    "*://*.x.com/*",
+    "*://*.dimden.dev/*"
   ],
   "web_accessible_resources": [
     {
