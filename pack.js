@@ -61,6 +61,8 @@ copyDir('./', './build/firefox').then(async () => {
     fs.writeFileSync('./build/firefox/manifest.json', JSON.stringify(manifest, null, 2));
     fs.unlinkSync('./build/firefox/pack.js');
     fs.unlinkSync('./build/chrome/pack.js');
+    fs.unlinkSync('./build/firefox/.gitignore');
+    fs.unlinkSync('./build/chrome/.gitignore');
 
     console.log("Patched!");
     if (fs.existsSync('./build/firefox.zip')) {
