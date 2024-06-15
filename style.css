@@ -72,7 +72,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     max-width: 700px;
     margin: auto;
     border-radius: 5px;
-    border: var(--tab-color) 1px solid;
+    border: #383838 1px solid;
     background-color: var(--background-color);
     padding: 20px;
     top: 20%;
@@ -157,6 +157,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     display: flex;
     font-size: 15px;
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 500;
 }
 
 .yeah-users h3 {
@@ -173,6 +174,18 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     border-radius: 50px;
     border: none;
     padding: 0 20px;
+    cursor: pointer;
+    color: var(--background-color);
+    transition: background-color 0.2s;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.nice-button {
+    background-color: var(--text-color);
+    border-radius: 50px;
+    border: none;
+    padding: 10px 20px;
     cursor: pointer;
     color: var(--background-color);
     transition: background-color 0.2s;
@@ -234,4 +247,8 @@ body[style^="background-color: rgb(0, 0, 0);"] {
 
 .user-item-avatar {
     border-radius: 50%;
+}
+
+.authentification-successful {
+    max-width: 543px;
 }

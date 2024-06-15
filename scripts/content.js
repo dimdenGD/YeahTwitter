@@ -14,8 +14,8 @@ if(!localStorage.yeahToken) {
             <img src="${chrome.runtime.getURL('images/yeah_on32.png')}" alt="Yeah!" style="width: 24px; height: 24px;margin-bottom: -4px;">
             Welcome to Yeah! for Twitter extension!
         </h2>
-        <p>This extension adds a <b>Yeah!</b> button to all tweets, which is essentially same thing as a Like but public to everyone.</p>
-        <p>It doesn't send a reply with an image, instead it saves your Yeahs into a custom database.</p>
+        <p>This extension adds a <b>Yeah!</b> button to all tweets, which is essentially same thing as a Like but public to everyone. Everyone can see who Yeahed a tweet, and everyone can see all your Yeahs on your profile.</p>
+        <p>It doesn't send a spammy reply with an image, instead it saves your Yeahs into a custom database.</p>
         <p>
             In order to get started, you need to authentificate your Twitter account.
             Click button below, and we'll automatically post a tweet on your behalf that will look like 'yeah-xxxxxxxx'.
@@ -27,13 +27,14 @@ if(!localStorage.yeahToken) {
         </p>
         <div class="error-message"></div>
         <div>
-            <button class="auth-button">Authentificate</button>
+            <button class="auth-button nice-button">Authentificate</button>
         </div>
     `, 'welcome-modal', () => {}, () => Date.now() - modalOpenTime > 1250);
 
     let button = modal.querySelector('.auth-button');
     button.addEventListener('click', async () => {
         button.disabled = true;
+        button.textContent = 'Authenticating...';
         let tweetId;
         try {
             // get tokens
@@ -71,9 +72,9 @@ if(!localStorage.yeahToken) {
                     </h2>
                     <p>You can now Yeah! on any tweet. Yeah!!!!!</p>
                     <div>
-                        btw I (<a href="/d1mden" target="_blank">@d1mden</a>) make a lot of cool extensions for Twitter like this, maybe u wanna follow me?
-                        <button class="follow-button">Yeah!</button>
+                        btw I (<a href="/d1mden" target="_blank" style="text-decoration:none;color:#1d9bf0">@d1mden</a>) make a lot of cool extensions for Twitter like this, maybe u wanna follow me?
                     </div>
+                    <div style="margin-top: 10px;"><button class="follow-button nice-button">Yeah!</button></div>
                 `, 'authentification-successful', () => {}, () => Date.now() - modalOpenTime > 2000);
 
                 let followButton = modal2.querySelector('.follow-button');
@@ -110,6 +111,7 @@ if(!localStorage.yeahToken) {
             modal.querySelector('.error-message').innerHTML = `Failed to authentificate. Please try again later. (${e.message})`;
         } finally {
             button.disabled = false;
+            button.textContent = 'Authentificate';
             if(tweetId) {
                 callTwitterApi('POST', `/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet`, {}, {
                     variables: {tweet_id: tweetId, dark_request: false},
@@ -331,6 +333,21 @@ function hookIntoInteractions() {
     }
 }
 
-hookIntoTweets();
+function hookIntoProfile() {
+    let tablist = document.querySelector('div:not([data-testid="toolBar"]) > nav[role="navigation"][aria-live="polite"] div div[role="tablist"]');
+    if(!tablist) return;
+    if(tablist.dataset.yeahed) return;
+    tablist.dataset.yeahed = true;
+
+    let yeahTab = document.createElement('div');
+    yeahTab.className = 'yeah-tab';
+
+    let span = document.createElement('span');
+    span.innerText = 'Yeahs';
+    yeahTab.appendChild(span);
+    tablist.appendChild(yeahTab);
+}
+
 setInterval(hookIntoTweets, 500);
 setInterval(hookIntoInteractions, 500);
+setInterval(hookIntoProfile, 500);
