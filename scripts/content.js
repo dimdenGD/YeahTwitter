@@ -261,7 +261,7 @@ function updateButton(data) {
 }
 
 let tweetCache = {};
-setInterval(() => tweetCache = {}, 1000 * 60 * 20);
+setInterval(() => tweetCache = {}, 1000 * 60 * 5);
 setInterval(async () => {
     if(fetchQueue.length > 0 && await getYeahToken()) {
         let first100 = fetchQueue.splice(0, 100);
