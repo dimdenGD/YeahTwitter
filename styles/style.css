@@ -31,11 +31,16 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
 .yeah-button-container-oldtwitter {
     display: inline;
     vertical-align: sub;
+    flex: unset;
 }
 
 .yeah-button-container-oldtwitter img {
     width: 20px !important;
     height: 20px !important;
+}
+
+.modal-content .yeah-button-container-oldtwitter .yeah-button {
+    margin-top: -3px;
 }
 
 .yeah-button {
@@ -272,4 +277,12 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
 
 .yeah-posts {
     width: 600px;
+}
+
+@media screen and (max-width: 590px) {
+    .yeah-modal-content {
+        min-width: 85%;
+        margin: 0 auto;
+        top: 10%;
+    }
 }
