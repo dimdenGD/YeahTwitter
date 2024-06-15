@@ -1,10 +1,15 @@
 const API_URL = `http://localhost:3000/api`;
 
-fetch(chrome.runtime.getURL('style.css')).then(res => res.text()).then(css => {
-    let style = document.createElement('style');
-    let head = document.head || document.getElementsByTagName('head')[0];
-    style.innerHTML = css;
-    head.appendChild(style);
+Promise.all([
+    fetch(chrome.runtime.getURL('styles/style.css')).then(res => res.text()),
+    fetch(chrome.runtime.getURL('styles/tweet.css')).then(res => res.text())
+]).then(styles => {
+    for(let css of styles) {
+        let style = document.createElement('style');
+        let head = document.head || document.getElementsByTagName('head')[0];
+        style.innerHTML = css.replaceAll('__MSG_@@extension_id__', chrome.runtime.id);
+        head.appendChild(style);
+    }
 });
 
 if(!localStorage.yeahToken) {
@@ -273,10 +278,10 @@ function hookIntoInteractions() {
         yeahTab.addEventListener('click', async() => {
             let modal = createModal(/*html*/`
                 <h3>Yeahs</h3>
+                <div class="list"></div>
                 <div class="loader" style="text-align:center">
                     <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
                 </div>
-                <div class="list"></div>
             `, 'yeah-users');
 
             let list = modal.querySelector('.list');
@@ -287,18 +292,19 @@ function hookIntoInteractions() {
             }));
 
             if(!data.length) {
-                modal.querySelector('.loader').remove();
+                modal.querySelector('.loader').hidden = true;
                 list.innerHTML = 'No Yeahs yet';
                 return;
             }
 
             let lookup = await API.user.lookup(data);
 
-            modal.querySelector('.loader').remove();
+            modal.querySelector('.loader').hidden = true;
 
             let addedUsers = [];
             
-            for(let user of lookup) {
+            for(let id of data) {
+                let user = lookup.find(user => user.id_str === id);
                 appendUser(user, list);
                 addedUsers.push(user.id_str);
             }
@@ -312,6 +318,7 @@ function hookIntoInteractions() {
                 let scrollPosition = modalContent.scrollTop + modalContent.offsetHeight;
                 if(scrollPosition >= modalContent.scrollHeight - 200) {
                     loadingMore = true;
+                    modal.querySelector('.loader').hidden = false;
                     let data = JSON.parse(await callYeahApi('/get_users', {
                         post_id: path.match(/\/status\/(\d+)/)[1],
                         page: page++
@@ -321,12 +328,15 @@ function hookIntoInteractions() {
                         return;
                     }
                     let lookup = await API.user.lookup(data);
-                    for(let user of lookup) {
-                        if(addedUsers.includes(user.id_str)) continue;
+                    for(let id of data) {
+                        if(addedUsers.includes(id)) continue;
+
+                        let user = lookup.find(user => user.id_str === id);
                         appendUser(user, list);
                         addedUsers.push(user.id_str);
                     }
                     loadingMore = false;
+                    modal.querySelector('.loader').hidden = true;
                 }
             });
         });
@@ -334,6 +344,11 @@ function hookIntoInteractions() {
 }
 
 function hookIntoProfile() {
+    if(['/notifications', '/explore', '/home'].includes(window.location.pathname)) return;
+    if(window.location.pathname.startsWith('/search')) return;
+    if(window.location.pathname.startsWith('/i/')) return;
+    if(window.location.pathname.includes('/communities/')) return;
+
     let tablist = document.querySelector('div:not([data-testid="toolBar"]) > nav[role="navigation"][aria-live="polite"] div div[role="tablist"]');
     if(!tablist) return;
     if(tablist.dataset.yeahed) return;
@@ -342,12 +357,54 @@ function hookIntoProfile() {
     let yeahTab = document.createElement('div');
     yeahTab.className = 'yeah-tab';
 
+    yeahTab.addEventListener('click', async () => {
+        let username = window.location.pathname.split('/')[1];
+        let modal = createModal(/*html*/`
+            <h3>${username}'s Yeahs</h3>
+            <div class="list"></div>
+            <div class="loader" style="text-align:center">
+                <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
+            </div>
+        `, 'yeah-posts');
+
+        let list = modal.querySelector('.list');
+        let user = await API.user.get(username, false);
+
+        let data = JSON.parse(await callYeahApi('/get_yeahs', {
+            user_id: user.id_str,
+            page: 1
+        }));
+
+        if(!data.length) {
+            modal.querySelector('.loader').hidden = true;
+            list.innerHTML = 'No Yeahs yet';
+            return;
+        }
+
+        let tweets = await API.tweet.lookup(data);
+
+        if(!tweets.length) {
+            modal.querySelector('.loader').hidden = true;
+            list.innerHTML = 'No Yeahs yet';
+            return;
+        }
+
+        
+        let addedPosts = [];
+        for(let id of data) {
+            let tweet = tweets.find(tweet => tweet.id_str === id);
+            appendTweet(tweet, list, {}, user);
+            addedPosts.push(tweet.id_str);
+        }
+        modal.querySelector('.loader').hidden = true;
+    });
+
     let span = document.createElement('span');
     span.innerText = 'Yeahs';
     yeahTab.appendChild(span);
     tablist.appendChild(yeahTab);
 }
 
-setInterval(hookIntoTweets, 500);
+setInterval(hookIntoTweets, 250);
 setInterval(hookIntoInteractions, 500);
 setInterval(hookIntoProfile, 500);

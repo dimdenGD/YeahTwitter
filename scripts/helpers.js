@@ -19,7 +19,7 @@ function createModal(html, className, onclose, canclose) {
         if(onclose) onclose();
         let modals = document.getElementsByClassName('modal');
         if(modals.length === 0) {
-            document.body.style.overflowY = 'auto';
+            document.body.style.overflowY = '';
         }
     }
     modal.removeModal = removeModal;
@@ -100,8 +100,11 @@ function formatLargeNumber(n) {
     else return Number(n).toLocaleString();
 }
 
-function escapeHTML(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function escapeHTML(unsafe) {
+    if(typeof unsafe === 'undefined' || unsafe === null) {
+        return '';
+    }
+    return DOMPurify.sanitize(String(unsafe));
 }
 
 async function appendUser(u, container, label) {

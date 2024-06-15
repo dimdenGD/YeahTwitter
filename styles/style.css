@@ -160,7 +160,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     font-weight: 500;
 }
 
-.yeah-users h3 {
+.yeah-users h3, .yeah-posts h3 {
     margin-top: 0;
     font-size: 24px;
 }
@@ -251,4 +251,8 @@ body[style^="background-color: rgb(0, 0, 0);"] {
 
 .authentification-successful {
     max-width: 543px;
+}
+
+.yeah-posts {
+    width: 600px;
 }

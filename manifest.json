@@ -17,7 +17,8 @@
     {
       "resources": [
         "images/*",
-        "style.css"
+        "styles/*",
+        "fonts/*"
       ],
       "matches": [
         "*://*.twitter.com/*",
@@ -34,7 +35,7 @@
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*", "https://x.com/*"],
-      "js": ["scripts/api.js", "scripts/helpers.js", "scripts/content.js"],
+      "js": ["scripts/purify.min.js", "scripts/api.js", "scripts/helpers.js", "scripts/tweetrenderer.js", "scripts/content.js"],
       "all_frames": true,
       "run_at": "document_end"
     }
