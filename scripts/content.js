@@ -396,15 +396,59 @@ function hookIntoProfile() {
     if(window.location.pathname.startsWith('/i/')) return;
     if(window.location.pathname.includes('/communities/')) return;
 
-    let tablist = document.querySelector('div:not([data-testid="toolBar"]) > nav[role="navigation"][aria-live="polite"] div div[role="tablist"]');
-    if(!tablist) return;
-    if(tablist.dataset.yeahed) return;
-    tablist.dataset.yeahed = true;
+    let addedTab;
+    let profileStats = document.querySelector('#profile-stats');
+    if(!profileStats) {
+        let tablist = document.querySelector('div:not([data-testid="toolBar"]) > nav[role="navigation"][aria-live="polite"] div div[role="tablist"]');
+        if(!tablist) return;
+        if(tablist.dataset.yeahed) return;
+        tablist.dataset.yeahed = true;
+    
+        let yeahTab = document.createElement('div');
+        yeahTab.className = 'yeah-tab';
+        let span = document.createElement('span');
+        span.innerText = 'Yeahs';
 
-    let yeahTab = document.createElement('div');
-    yeahTab.className = 'yeah-tab';
+        yeahTab.appendChild(span);   
+        tablist.appendChild(yeahTab);
+        
+        addedTab = yeahTab;
+    } else {
+        if(profileStats.dataset.yeahed) return;
+        profileStats.dataset.yeahed = true;
 
-    yeahTab.addEventListener('click', async () => {
+        let yeahTab = document.createElement('a');
+        yeahTab.className = 'profile-stat';
+        yeahTab.style.cursor = 'pointer';
+
+        let span = document.createElement('span');
+        span.innerText = 'Yeahs';
+        span.className = 'profile-stat-text';
+
+        let span2 = document.createElement('span');
+        span2.className = 'profile-stat-count';
+        span2.innerText = '?';
+
+        setTimeout(() => {
+            let avatar = document.getElementById('profile-avatar');
+            if(!avatar) return;
+            let id = avatar.src.match(/\/profile_images\/(\d+)\//)[1];
+            callYeahApi('/get_user_yeah_count', {
+                user_id: id
+            }).then(data => {
+                data = JSON.parse(data);
+                if(typeof data.count === 'number') span2.innerText = formatLargeNumber(data.count);
+            });
+        }, 2000);
+
+        yeahTab.appendChild(span);
+        yeahTab.appendChild(span2);
+
+        profileStats.appendChild(yeahTab);
+
+        addedTab = yeahTab;
+    }
+    if(addedTab) addedTab.addEventListener('click', async () => {
         let username = window.location.pathname.split('/')[1];
         let modal = createModal(/*html*/`
             <h3>${username}'s Yeahs</h3>
@@ -476,11 +520,6 @@ function hookIntoProfile() {
             }
         });
     });
-
-    let span = document.createElement('span');
-    span.innerText = 'Yeahs';
-    yeahTab.appendChild(span);
-    tablist.appendChild(yeahTab);
 }
 
 setInterval(hookIntoTweets, 250);
