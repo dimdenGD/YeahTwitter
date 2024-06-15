@@ -154,6 +154,10 @@ function hookIntoTweets() {
                     tweetCache[id].yeahed = true;
                     tweetCache[id].count++;
                 }
+                let likeButton = tweet.querySelector('button[data-testid="like"]');
+                if(likeButton) {
+                    likeButton.click();
+                }
             } else {
                 callYeahApi('/unyeah', {
                     post_id: id
@@ -168,6 +172,10 @@ function hookIntoTweets() {
                     tweetCache[id].yeahed = false;
                     tweetCache[id].count--;
                     if(tweetCache[id].count < 0) tweetCache[id].count = 0;
+                }
+                let likeButton = tweet.querySelector('button[data-testid="unlike"]');
+                if(likeButton) {
+                    likeButton.click();
                 }
             }
         });
@@ -261,7 +269,6 @@ function hookIntoInteractions() {
         tablist.appendChild(yeahTab);
 
         yeahTab.addEventListener('click', async() => {
-            
             let modal = createModal(/*html*/`
                 <h3>Yeahs</h3>
                 <div class="loader" style="text-align:center">
