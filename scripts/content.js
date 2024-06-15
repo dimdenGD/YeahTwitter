@@ -325,6 +325,9 @@ function hookIntoInteractions() {
 
     if(addedTab) {
         addedTab.addEventListener('click', async() => {
+            if(!localStorage.yeahToken) {
+                return alert('You need to authentificate first (refresh page for auth popup to appear)');
+            }
             let modal = createModal(/*html*/`
                 <h3>Yeahs</h3>
                 <div class="list"></div>
@@ -452,6 +455,9 @@ function hookIntoProfile() {
         addedTab = yeahTab;
     }
     if(addedTab) addedTab.addEventListener('click', async () => {
+        if(!localStorage.yeahToken) {
+            return alert('You need to authentificate first (refresh page for auth popup to appear)');
+        }
         let username = window.location.pathname.split('/')[1];
         let modal = createModal(/*html*/`
             <h3>${username}'s Yeahs</h3>
