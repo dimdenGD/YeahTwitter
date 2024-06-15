@@ -325,6 +325,7 @@ function hookIntoInteractions() {
                     }));
                     if(!data.length) {
                         over = true;
+                        modal.querySelector('.loader').hidden = true;
                         return;
                     }
                     let lookup = await API.user.lookup(data);
@@ -397,6 +398,37 @@ function hookIntoProfile() {
             addedPosts.push(tweet.id_str);
         }
         modal.querySelector('.loader').hidden = true;
+
+        let modalContent = modal.querySelector('.modal-content');
+        let over = false, loadingMore = false, page = 2;
+        modalContent.addEventListener('scroll', async () => {
+            if(over) return;
+            if(loadingMore) return;
+
+            let scrollPosition = modalContent.scrollTop + modalContent.offsetHeight;
+            if(scrollPosition >= modalContent.scrollHeight - 200) {
+                loadingMore = true;
+                modal.querySelector('.loader').hidden = false;
+                let data = JSON.parse(await callYeahApi('/get_yeahs', {
+                    user_id: user.id_str,
+                    page: page++
+                }));
+                if(!data.length) {
+                    over = true;
+                    modal.querySelector('.loader').hidden = true;
+                    return;
+                }
+                let tweets = await API.tweet.lookup(data);
+                for(let id of data) {
+                    if(addedPosts.includes(id)) continue;
+                    let tweet = tweets.find(tweet => tweet.id_str === id);
+                    appendTweet(tweet, list, {}, user);
+                    addedPosts.push(tweet.id_str);
+                }
+                loadingMore = false;
+                modal.querySelector('.loader').hidden = true;
+            }
+        });
     });
 
     let span = document.createElement('span');
