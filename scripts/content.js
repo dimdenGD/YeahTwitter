@@ -293,10 +293,40 @@ function hookIntoInteractions() {
             let lookup = await API.user.lookup(data);
 
             modal.querySelector('.loader').remove();
+
+            let addedUsers = [];
             
             for(let user of lookup) {
                 appendUser(user, list);
+                addedUsers.push(user.id_str);
             }
+
+            let modalContent = modal.querySelector('.modal-content');
+            let over = false, loadingMore = false, page = 2;
+            modalContent.addEventListener('scroll', async () => {
+                if(over) return;
+                if(loadingMore) return;
+
+                let scrollPosition = modalContent.scrollTop + modalContent.offsetHeight;
+                if(scrollPosition >= modalContent.scrollHeight - 200) {
+                    loadingMore = true;
+                    let data = JSON.parse(await callYeahApi('/get_users', {
+                        post_id: path.match(/\/status\/(\d+)/)[1],
+                        page: page++
+                    }));
+                    if(!data.length) {
+                        over = true;
+                        return;
+                    }
+                    let lookup = await API.user.lookup(data);
+                    for(let user of lookup) {
+                        if(addedUsers.includes(user.id_str)) continue;
+                        appendUser(user, list);
+                        addedUsers.push(user.id_str);
+                    }
+                    loadingMore = false;
+                }
+            });
         });
     }
 }
