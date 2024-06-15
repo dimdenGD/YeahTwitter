@@ -545,12 +545,10 @@ document.addEventListener('keydown', e => {
     if(lastPresses.length >= 50) lastPresses = lastPresses.slice(1);
     lastPresses += key;
 
-    console.log(lastPresses);
-
     if(lastPresses.endsWith('clearmyyeahtokenplzz')) {
         lastPresses = "";
         chrome.storage.local.remove('yeahToken');
-        alert('Token cleared!');
+        alert('YeahToken cleared!');
     }
 });
 
