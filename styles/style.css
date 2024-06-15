@@ -28,6 +28,16 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     justify-content: flex-start;
 }
 
+.yeah-button-container-oldtwitter {
+    display: inline;
+    vertical-align: sub;
+}
+
+.yeah-button-container-oldtwitter img {
+    width: 20px !important;
+    height: 20px !important;
+}
+
 .yeah-button {
     background-color: transparent;
     border: none;
@@ -54,7 +64,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
 }
 
 
-.modal {
+.yeah-modal {
     position: fixed;
     z-index: 200;
     left: 0;
@@ -66,7 +76,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content {
+.yeah-modal-content {
     width: fit-content;
     min-width: 500px;
     max-width: 700px;
@@ -91,7 +101,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     }
 }
 
-.modal-close {
+.yeah-modal-close {
     color: #aaaaaa;
     float: right;
     font-size: 20px;
@@ -101,8 +111,8 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     position: absolute;
 }
 
-.modal-close:hover,
-.modal-close:focus {
+.yeah-modal-close:hover,
+.yeah-modal-close:focus {
     color: var(--default-text-color);
     text-decoration: none;
     cursor: pointer;
@@ -181,7 +191,7 @@ body[style^="background-color: rgb(0, 0, 0);"] {
     font-size: 15px;
 }
 
-.nice-button {
+.nice-yeah-button {
     background-color: var(--text-color);
     border-radius: 50px;
     border: none;

@@ -1,13 +1,13 @@
 function createModal(html, className, onclose, canclose) {
     let modal = document.createElement('div');
-    modal.classList.add('modal');
+    modal.classList.add('yeah-modal');
     let modal_content = document.createElement('div');
-    modal_content.classList.add('modal-content');
+    modal_content.classList.add('yeah-modal-content');
     if(className) modal_content.classList.add(className);
     modal_content.innerHTML = html;
     modal.appendChild(modal_content);
     let close = document.createElement('span');
-    close.classList.add('modal-close');
+    close.classList.add('yeah-modal-close');
     close.title = "ESC";
     close.innerHTML = '&times;';
     document.body.style.overflowY = 'hidden';
@@ -123,7 +123,7 @@ async function appendUser(u, container, label) {
                 </div>
             </a>
         </div>
-        <button class="user-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? "Following" : "Follow"}</button>
+        <button class="user-item-btn nice-yeah-button ${u.following ? 'following' : 'follow'}">${u.following ? "Following" : "Follow"}</button>
     `;
 
     let followButton = userElement.querySelector('.user-item-btn');

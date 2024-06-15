@@ -1082,7 +1082,7 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
                 <div class="tweet-interact">
                     <span class="tweet-button tweet-interact-reply" title="Replies" data-val="${t.reply_count}">${options.mainTweet ? '' : formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</span>
                     <span title="Retweets" class="tweet-button tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</span>
-                    <span title="Likes" class="tweet-button tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
+                    <span title="Likes" class="tweet-button tweet-yeah-interact-favorite ${t.favorited ? 'tweet-yeah-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
                     ${t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? html`<span title="${"Views"}" class="tweet-interact-views tweet-button" data-val="${t.ext.views.r.ok.count}">${formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ',')}</span>` : ''}
                 </div>
             </article>
@@ -1177,7 +1177,7 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
         const tweetInteract = tweet.getElementsByClassName('tweet-interact')[0];
         const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
         const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
-        const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
+        const tweetInteractFavorite = tweet.getElementsByClassName('tweet-yeah-interact-favorite')[0];
         const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
         const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
 
