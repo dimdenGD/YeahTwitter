@@ -42,9 +42,6 @@ copyDir('./', './build/firefox').then(async () => {
 
     let manifest = JSON.parse(await fsp.readFile('./build/chrome/manifest.json', 'utf8'));
     manifest.manifest_version = 2;
-    manifest.background = {
-        scripts: ["scripts/background.js"],
-    }
     manifest.permissions.push("webRequest", "webRequestBlocking", ...manifest.host_permissions);
     delete manifest.host_permissions;
     manifest.web_accessible_resources = manifest.web_accessible_resources[0].resources;
