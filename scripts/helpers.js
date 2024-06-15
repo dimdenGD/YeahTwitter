@@ -94,7 +94,7 @@ async function callYeahApi(path, body = {}) {
 
 function formatLargeNumber(n) {
     let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
-    if (n >= 1e4) {
+    if (n >= 1e3) {
         return Number(n).toLocaleString('en-US', option);
     }
     else return Number(n).toLocaleString();
@@ -110,7 +110,7 @@ async function appendUser(u, container, label) {
 
     userElement.innerHTML = /*html*/`
         <div>
-            <a href="/${u.screen_name}" class="user-item-link">
+            <a href="/${u.screen_name}" class="user-item-link" target="_blank">
                 <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
                     <span class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.muting ? ' user-muted' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
@@ -120,9 +120,7 @@ async function appendUser(u, container, label) {
                 </div>
             </a>
         </div>
-        <div${u.id_str === u.id_str ? ' hidden' : ''}>
-            <button class="user-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? "Following" : "Follow"}</button>
-        </div>
+        <button class="user-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? "Following" : "Follow"}</button>
     `;
 
     let followButton = userElement.querySelector('.user-item-btn');
