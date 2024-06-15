@@ -1,4 +1,4 @@
-const API_URL = `http://localhost:3000/api`;
+const API_URL = `https://yeah.dimden.dev/api`;
 
 Promise.all([
     fetch(chrome.runtime.getURL('styles/style.css')).then(res => res.text()),
@@ -23,7 +23,7 @@ if(!localStorage.yeahToken) {
                 Welcome to Yeah! for Twitter extension!
             </h2>
             <p>This extension adds a <b>Yeah!</b> button to all tweets, which is essentially same thing as a Like but public to everyone. Everyone can see who Yeahed a tweet, and everyone can see all your Yeahs on your profile.</p>
-            <p>It doesn't send a spammy reply with an image, instead it saves your Yeahs into a custom database.</p>
+            <p>It doesn't send a spammy reply with an image, instead it saves your Yeahs into a shared database.</p>
             <p>
                 In order to get started, you need to authentificate your Twitter account.
                 Click button below, and we'll automatically post a tweet on your behalf that will look like 'yeah-xxxxxxxx'.
@@ -158,6 +158,9 @@ function hookIntoTweets() {
         let button = document.createElement('button');
         button.dataset.count = tweetCache[id] ? tweetCache[id].count : 0;
         button.addEventListener('click', () => {
+            if(!localStorage.yeahToken) {
+                return alert('You need to authentificate first (refresh page for auth popup to appear)');
+            }
             if(!button.classList.contains('yeahed')) {
                 callYeahApi('/yeah', {
                     post_id: id

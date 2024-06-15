@@ -89,7 +89,14 @@ async function callYeahApi(path, body = {}) {
         },
         body: JSON.stringify(body)
     });
-    return await res.text();
+    let result = await res.text();
+
+    if(result === 'Invalid key') {
+        delete localStorage.yeahToken;
+        throw new Error('Invalid key');
+    }
+
+    return result;
 }
 
 function formatLargeNumber(n) {
