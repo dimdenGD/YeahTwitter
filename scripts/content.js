@@ -7,108 +7,6 @@ fetch(chrome.runtime.getURL('style.css')).then(res => res.text()).then(css => {
     head.appendChild(style);
 });
 
-function createModal(html, className, onclose, canclose) {
-    let modal = document.createElement('div');
-    modal.classList.add('modal');
-    let modal_content = document.createElement('div');
-    modal_content.classList.add('modal-content');
-    if(className) modal_content.classList.add(className);
-    modal_content.innerHTML = html;
-    modal.appendChild(modal_content);
-    let close = document.createElement('span');
-    close.classList.add('modal-close');
-    close.title = "ESC";
-    close.innerHTML = '&times;';
-    document.body.style.overflowY = 'hidden';
-    function removeModal() {
-        modal.remove();
-        let event = new Event('findActiveTweet');
-        document.dispatchEvent(event);
-        document.removeEventListener('keydown', escapeEvent);
-        if(onclose) onclose();
-        let modals = document.getElementsByClassName('modal');
-        if(modals.length === 0) {
-            document.body.style.overflowY = 'auto';
-        }
-    }
-    modal.removeModal = removeModal;
-    function escapeEvent(e) {
-        if(document.querySelector('.viewer-in')) return;
-        if(e.key === 'Escape' || (e.altKey && e.keyCode === 78)) {
-            if(!canclose || canclose()) removeModal();
-        }
-    }
-    close.addEventListener('click', removeModal);
-    let isHoldingMouseFromContent = false;
-    modal_content.addEventListener('mousedown', () => {
-        isHoldingMouseFromContent = true;
-    });
-    document.addEventListener('mouseup', () => {
-        setTimeout(() => isHoldingMouseFromContent = false, 10);
-    });
-    modal.addEventListener('click', e => {
-        if(e.target === modal && !isHoldingMouseFromContent) {
-            if(!canclose || canclose()) removeModal();
-        }
-    });
-    document.addEventListener('keydown', escapeEvent);
-    modal_content.appendChild(close);
-    document.body.appendChild(modal);
-    return modal;
-}
-
-async function callTwitterApi(method = 'GET', path, headers = {}, body) {
-    if(typeof body === 'object' && !headers['Content-Type']) {
-        body = JSON.stringify(body);
-        headers['Content-Type'] = 'application/json';
-    }
-    if(headers['Content-Type'] === 'application/x-www-form-urlencoded') {
-        body = new URLSearchParams(body).toString();
-    }
-    if(!headers['Authorization']) {
-        headers['Authorization'] = `Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA`;
-    }
-    if(!headers['x-csrf-token']) {
-        let csrf = document.cookie.match(/(?:^|;\s*)ct0=([0-9a-f]+)\s*(?:;|$)/);
-        headers['x-csrf-token'] = csrf ? csrf[1] : "";
-    }
-    headers['x-twitter-auth-type'] = 'OAuth2Session';
-    headers['x-twitter-active-user'] = 'yes';
-    headers['x-twitter-client-language'] = 'en';
-
-    let res = await fetch(`/i/api${path}`, {
-        method,
-        headers,
-        body
-    }).then(res => res.json());
-
-    if(res.errors) {
-        throw new Error(res.errors[0].message);
-    }
-
-    return res;
-};
-
-async function callYeahApi(path, body = {}) {
-    if(localStorage.yeahToken) body.key = localStorage.yeahToken;
-    const res = await fetch(API_URL + path, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    });
-    return await res.text();
-}
-
-function formatLargeNumber(n) {
-    let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
-    if (n >= 1e4) {
-        return Number(n).toLocaleString('en-US', option);
-    }
-    else return Number(n).toLocaleString();
-}
-
 if(!localStorage.yeahToken) {
     let modalOpenTime = Date.now();
     let modal = createModal(/*html*/`
@@ -240,7 +138,8 @@ function hookIntoTweets() {
 
         let div = document.createElement('div');
         let button = document.createElement('button');
-        button.dataset.count = 0;
+        console.log(1, tweetCache[id]);
+        button.dataset.count = tweetCache[id] ? tweetCache[id].count : 0;
         button.addEventListener('click', () => {
             if(!button.classList.contains('yeahed')) {
                 callYeahApi('/yeah', {
@@ -274,13 +173,14 @@ function hookIntoTweets() {
         div.className = 'yeah-button-container';
 
         let img = document.createElement('img');
-        img.src = chrome.runtime.getURL('images/yeah_off32.png');
+        img.src = tweetCache[id] && tweetCache[id].yeahed ? chrome.runtime.getURL('images/yeah_on32.png') : chrome.runtime.getURL('images/yeah_off32.png');
+        if(tweetCache[id] && tweetCache[id].yeahed) button.classList.add('yeahed');
         img.className = 'yeah-image';
         button.appendChild(img);
 
         let counter = document.createElement('span');
         counter.className = 'yeah-counter';
-        counter.innerText = '';
+        counter.innerText = tweetCache[id] && tweetCache[id].count ? formatLargeNumber(tweetCache[id].count) : '';
         
         button.appendChild(counter);
         div.appendChild(button);
@@ -312,21 +212,72 @@ let tweetCache = {};
 setInterval(async() => {
     if(fetchQueue.length > 0 && localStorage.yeahToken) {
         let first100 = fetchQueue.splice(0, 100);
-        let cachedData = first100.map(id => tweetCache[id]);
+        let cachedData = first100.map(id => tweetCache[id]).filter(Boolean);
         for(let cache of cachedData) {
             updateButton(cache);
         }
-        first100 = first100.filter((id, i) => !cachedData[i]);
+        first100 = first100.filter((id) => !tweetCache[id]);
         if(!first100.length) return;
         let data = JSON.parse(await callYeahApi('/get', {
             post_ids: first100.join(',')
         }));
-        for(let id in data) {
-            tweetCache[id] = data[id];
-            updateButton(data[id]);
+        for(let i in data) {
+            tweetCache[data[i].post_id] = data[i];
+            updateButton(data[i]);
         }
     }
-}, 1000);
+}, 1500);
+
+function hookIntoInteractions() {
+    let path = window.location.pathname;
+    if(path.includes('/status/') && (path.endsWith('/quotes') || path.endsWith('/retweets') || path.endsWith('/likes'))) {
+        let tablist = document.querySelector('div[role="tablist"]');
+        if(!tablist) return;
+        if(tablist.dataset.yeahed) return;
+        tablist.dataset.yeahed = true;
+
+        let yeahTab = document.createElement('div');
+        yeahTab.className = 'yeah-tab';
+
+        let span = document.createElement('span');
+        span.innerText = 'Yeahs';
+        yeahTab.appendChild(span);
+        tablist.appendChild(yeahTab);
+
+        yeahTab.addEventListener('click', async() => {
+            
+            let modal = createModal(/*html*/`
+                <h3>Yeahs</h3>
+                <div class="loader" style="text-align:center">
+                    <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
+                </div>
+                <div class="list"></div>
+            `, 'yeah-users');
+
+            let list = modal.querySelector('.list');
+
+            let data = JSON.parse(await callYeahApi('/get_users', {
+                post_id: path.match(/\/status\/(\d+)/)[1],
+                page: 1
+            }));
+
+            if(!data.length) {
+                modal.querySelector('.loader').remove();
+                list.innerHTML = 'No Yeahs yet';
+                return;
+            }
+
+            let lookup = await API.user.lookup(data);
+
+            modal.querySelector('.loader').remove();
+            
+            for(let user of lookup) {
+                appendUser(user, list);
+            }
+        });
+    }
+}
 
 hookIntoTweets();
 setInterval(hookIntoTweets, 500);
+setInterval(hookIntoInteractions, 500);
