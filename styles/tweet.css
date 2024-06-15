@@ -408,6 +408,11 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     padding-bottom: 3px;
 }
 
+.tweet-reply-to a {
+    text-decoration: none;
+    color: var(--yeah-link-color);
+}
+
 .yeah-tweet .tweet-interact-reply[data-val="0"],
 .yeah-tweet .tweet-interact-retweet[data-val="0"],
 .yeah-tweet .tweet-yeah-interact-favorite[data-val="0"],
