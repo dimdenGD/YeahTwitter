@@ -249,7 +249,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     color: var(--yeah-text-color);
     font-size: 16px;
 }
-.yeah-username {
+.yeah-handle {
     display: inline;
     direction: ltr;
     unicode-bidi: embed;

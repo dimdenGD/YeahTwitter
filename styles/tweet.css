@@ -151,6 +151,10 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     unicode-bidi: embed
 }
 
+.tweet-body-text-span a {
+    color: var(--yeah-link-color);
+}
+
 .tweet-time {
     bottom: 3px;
     position: relative
@@ -341,6 +345,32 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
 .tweet-interact {
     margin-top: 10px;
     user-select: none
+}
+
+.tweet-interact span {
+    color: var(--yeah-light-gray);
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 6px;
+    margin-right: 20px;
+    position: relative;
+    text-decoration: none;
+    top: -2px;
+    font-family: var(--font), Arial;
+}
+
+
+.tweet-interact span:before {
+    -webkit-font-smoothing: antialiased;
+    color: #ccd6dd;
+    cursor: pointer;
+    font: 400 16px var(--yeah-icon-font);
+    margin-right: 10px;
+    vertical-align: sub;
+    display: inline-block;
+    min-width: 16px;
 }
 
 .tweet-interact-reply:before {
