@@ -279,6 +279,7 @@ setInterval(async() => {
 
 function hookIntoInteractions() {
     let path = window.location.pathname;
+    let addedTab;
     if(path.includes('/status/') && (path.endsWith('/quotes') || path.endsWith('/retweets') || path.endsWith('/likes'))) {
         let tablist = document.querySelector('div[role="tablist"]');
         if(!tablist) return;
@@ -293,7 +294,34 @@ function hookIntoInteractions() {
         yeahTab.appendChild(span);
         tablist.appendChild(yeahTab);
 
-        yeahTab.addEventListener('click', async() => {
+        addedTab = yeahTab;
+    } else {
+        let tablist = document.querySelector('.tweet-footer-stats');
+        if(!tablist) return;
+        if(tablist.dataset.yeahed) return;
+        tablist.dataset.yeahed = true;
+
+        let yeahTab = document.createElement('a');
+        yeahTab.className = 'tweet-footer-stat';
+
+        let span = document.createElement('span');
+        span.innerText = 'Yeahs';
+        span.className = 'tweet-footer-stat-text';
+
+        let b = document.createElement('b');
+        let id = location.pathname.match(/\/status\/(\d+)/)[1];
+        b.innerText = tweetCache[id] && tweetCache[id].count ? formatLargeNumber(tweetCache[id].count) : '?';
+        b.className = 'tweet-footer-stat-count';
+
+        yeahTab.appendChild(span);
+        yeahTab.appendChild(b);
+        tablist.appendChild(yeahTab);
+
+        addedTab = yeahTab;
+    }
+
+    if(addedTab) {
+        addedTab.addEventListener('click', async() => {
             let modal = createModal(/*html*/`
                 <h3>Yeahs</h3>
                 <div class="list"></div>

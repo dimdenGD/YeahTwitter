@@ -123,12 +123,12 @@ async function appendUser(u, container, label) {
                 </div>
             </a>
         </div>
-        <button class="user-item-btn nice-yeah-button ${u.following ? 'following' : 'follow'}">${u.following ? "Following" : "Follow"}</button>
+        <button class="user-item-btn nice-yeah-button ${u.following ? 'yeah-following' : 'yeah-follow'}">${u.following ? "Following" : "Follow"}</button>
     `;
 
     let followButton = userElement.querySelector('.user-item-btn');
     followButton.addEventListener('click', async () => {
-        if (followButton.classList.contains('following')) {
+        if (followButton.classList.contains('yeah-following')) {
             try {
                 await API.user.unfollow(u.screen_name);
             } catch(e) {
@@ -136,8 +136,8 @@ async function appendUser(u, container, label) {
                 alert(e);
                 return;
             }
-            followButton.classList.remove('following');
-            followButton.classList.add('follow');
+            followButton.classList.remove('yeah-following');
+            followButton.classList.add('yeah-follow');
             followButton.innerText = "Follow";
         } else {
             try {
@@ -147,8 +147,8 @@ async function appendUser(u, container, label) {
                 alert(e);
                 return;
             }
-            followButton.classList.remove('follow');
-            followButton.classList.add('following');
+            followButton.classList.remove('yeah-follow');
+            followButton.classList.add('yeah-following');
             followButton.innerText = "Following";
         }
     });
