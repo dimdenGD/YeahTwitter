@@ -314,6 +314,7 @@ function hookIntoInteractions() {
 
         let yeahTab = document.createElement('a');
         yeahTab.className = 'tweet-footer-stat';
+        yeahTab.style.cursor = 'pointer';
 
         let span = document.createElement('span');
         span.innerText = 'Yeahs';
