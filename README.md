@@ -4,7 +4,7 @@ This extension supports both new Twitter and OldTwitter!
 ![Screenshot](https://lune.dimden.dev/a602b6e6a2af.gif)  
 
 ## Installation
-**Chrome Web Store:** *to be added*  
+**Chrome Web Store:** https://chromewebstore.google.com/detail/yeah-for-twitter/haebjcgjcobeedihnmhcapfblbjdaimb   
 **Firefox Add-ons:** *to be added*
 
 ## Manual Installation
@@ -30,7 +30,7 @@ This extension supports both new Twitter and OldTwitter!
 
 ## API
 If you wish to implement Yeah! button in your Twitter mod, you can use this API.  
-**Base URL:** `https://yeah.dimden.dev/api`  
+**Base URL:** `https://yeah.dimden.dev`  
 All requests use POST method.  
 All requests require Content-Type: `application/json`.  
   
