@@ -343,7 +343,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     user-select: none
 }
 
-.tweet-interact span {
+.yeah-tweet .tweet-interact span {
     color: var(--yeah-light-gray);
     cursor: pointer;
     display: inline-block;
