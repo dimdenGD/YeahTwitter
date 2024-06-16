@@ -435,9 +435,12 @@ function hookIntoInteractions() {
 }
 
 function hookIntoProfile() {
-    if(['/notifications', '/explore', '/home'].includes(window.location.pathname)) return;
+    if(['/notifications', '/explore', '/home', '/messages'].includes(window.location.pathname)) return;
     if(window.location.pathname.startsWith('/search')) return;
     if(window.location.pathname.startsWith('/i/')) return;
+    if(window.location.pathname.startsWith('/explore/')) return;
+    if(window.location.pathname.startsWith('/notifications/')) return;
+    if(window.location.pathname.startsWith('/messages/')) return;
     if(window.location.pathname.includes('/communities/')) return;
 
     let addedTab;
