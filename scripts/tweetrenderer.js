@@ -1063,7 +1063,7 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
                     ${quoteMentionedUserText !== `` ? html`
                     <span class="tweet-reply-to tweet-quote-reply-to">${"Replying to $SCREEN_NAME$".replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replaceAll(` `,", ").replace(", "," and "))}</span>
                     ` : ''}
-                    <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
+                    <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--yeah-default-text-color)!important">${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? html`
                     <div class="tweet-media-quote">
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (false && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${m.type === 'animated_gif' ? 'tweet-media-element-quote-gif' : ''} ${mediaClasses[t.quoted_status.extended_entities.media.length]}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
@@ -1353,83 +1353,13 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
             }
         });
         if(tweetBodyQuote) {
-            if(typeof mainTweetLikers !== 'undefined') {
-                tweetBodyQuote.addEventListener('click', e => {
-                    e.preventDefault();
-                    document.getElementById('loading-box').hidden = false;
-                    history.pushState({}, null, `/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`);
-                    updateSubpage();
-                    mediaToUpload = [];
-                    linkColors = {};
-                    cursor = undefined;
-                    seenReplies = [];
-                    mainTweetLikers = [];
-                    let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-                    if(subpage === 'tweet') {
-                        updateReplies(id);
-                    } else if(subpage === 'likes') {
-                        updateLikes(id);
-                    } else if(subpage === 'retweets') {
-                        updateRetweets(id);
-                    } else if(subpage === 'retweets_with_comments') {
-                        updateRetweetsWithComments(id);
-                    }
-                    renderDiscovery();
-                    renderTrends();
-                    currentLocation = location.pathname;
-                });
-            } else {
-                tweetBodyQuote.addEventListener('click', e => {
-                    e.preventDefault();
-                    if(e.target.className && e.target.className.includes('tweet-media-element')) {
-                        if(!e.target.src.includes('?name=') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
-                            e.target.src += '?name=orig';
-                        } else if(e.target.src.includes('?name=small')) {
-                            e.target.src = e.target.src.replace('?name=small', '?name=large');
-                        }
-                        new Viewer(e.target.parentElement, {
-                            transition: false,
-                            zoomRatio: 0.3
-                        });
-                        e.target.click();
-                        return;
-                    }
-                    let a = document.createElement('a');
-                    a.href = `/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`;
-                    a.target = '_blank';
-                    a.click();
-                });
-            }
-            if(tweetQuoteTranslate) {
-                let quoteTranslating = false;
-                tweetQuoteTranslate.addEventListener('click', async e => {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-
-                    if(t.quoted_status.translated || quoteTranslating) return;
-                    quoteTranslating = true;
-                    let translated = await API.tweet.translate(t.quoted_status.id_str);
-                    quoteTranslating = false;
-                    t.quoted_status.translated = true;
-                    tweetQuoteTranslate.hidden = true;
-                    if(!translated.translated_lang || !translated.text) return;
-                    let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
-                    if(translated.text.trim() === tt) return;
-                    if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
-                    let translatedMessage;
-                    if("Translated from $LANGUAGE$".includes("$LANGUAGE$")) {
-                        translatedMessage = "Translated from $LANGUAGE$".replace("$LANGUAGE$", `[${translated.translated_lang}]`);
-                    } else {
-                        translatedMessage = `${"Translated from $LANGUAGE$"} [${translated.translated_lang}]`;
-                    }
-                    if(translated.text.length > 600) {
-                        translated.text = translated.text.substring(0, 600) + '...';
-                    }
-                    tweetBodyQuoteText.innerHTML += 
-                    `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
-                    `<span class="tweet-translated-text" style="color:var(--default-text-color)!important">${escapeHTML(translated.text)}</span>`;
-                });
-            }
+            tweetBodyQuote.addEventListener('click', e => {
+                e.preventDefault();
+                let a = document.createElement('a');
+                a.href = `/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`;
+                a.target = '_blank';
+                a.click();
+            });
         }
 
         // Translate

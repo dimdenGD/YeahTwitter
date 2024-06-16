@@ -4,7 +4,7 @@ body {
     --yeah-font: Arial, sans-serif;
     --yeah-tweet-font: Arial, sans-serif;
     --yeah-font-override: "JustBird", var(--yeah-font);
-    --yeah-icon-font: "RosettaIcons";
+    --yeah-icon-font: "RosettaIcons2";
 
     --yeah-video-cover: contain;
     --yeah-background-color: white;
@@ -82,7 +82,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
 }
 
 @font-face {
-    font-family: 'RosettaIcons';
+    font-family: 'RosettaIcons2';
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
 
@@ -211,10 +211,6 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     content: "\f151"
 }
 
-.yeah-tweet .tweet-yeah-interact-favorite:before {
-    content: var(--yeah-favorite-icon-content)
-}
-
 .yeah-tweet .tweet-interact-more:before {
     content: "\f150"
 }
@@ -241,18 +237,18 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     margin-left: 35px
 }
 
-.tweet-top-icon,
-.tweet-top-text {
+.yeah-tweet .tweet-top-icon,
+.yeah-tweet .tweet-top-text {
     color: var(--yeah-light-gray);
     display: inline-block
 }
 
-.tweet-top-text a {
+.yeah-tweet .tweet-top-text a {
     color: var(--yeah-light-gray);
     text-decoration: none
 }
 
-.tweet-top-text a:hover {
+.yeah-tweet .tweet-top-text a:hover {
     color: var(--yeah-link-color) !important;
     text-decoration: underline
 }
@@ -295,8 +291,8 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     text-decoration: underline
 }
 
-.tweet-avatar,
-.tweet-avatar-quote {
+.yeah-tweet .tweet-avatar,
+.yeah-tweet .tweet-avatar-quote {
     border-radius: 50px;
 }
 
@@ -362,7 +358,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
 }
 
 
-.tweet-interact span:before {
+.yeah-tweet .tweet-interact span:before {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
@@ -401,14 +397,14 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     position: relative
 }
 
-.tweet-reply-to {
+.yeah-tweet .tweet-reply-to {
     display: flow-root;
     font-size: 13px;
     color: var(--yeah-light-gray);
     padding-bottom: 3px;
 }
 
-.tweet-reply-to a {
+.yeah-tweet .tweet-reply-to a {
     text-decoration: none;
     color: var(--yeah-link-color);
 }

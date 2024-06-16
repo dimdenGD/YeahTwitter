@@ -28,7 +28,7 @@ setTimeout(async () => {
                 <p>This extension adds a <b>Yeah!</b> button to all tweets, which is essentially same thing as a Like but public to everyone. Everyone can see who Yeahed a tweet, and everyone can see all your Yeahs on your profile.</p>
                 <p>It doesn't send a spammy reply with an image, instead it saves your Yeahs into a shared database.</p>
                 <p>
-                    In order to get started, you need to authentificate your Twitter account.
+                    In order to get started, you need to authenticate your Twitter account.
                     Click button below, and we'll automatically post a tweet on your behalf that will look like 'yeah-xxxxxxxx'.
                     Then our server will check for that tweet existence, confirm that it's you, and extension will automatically remove the tweet and save your token.
                     This tweet should be only up for about a second, so don't worry about posting nonsensical tweet.
@@ -119,10 +119,10 @@ setTimeout(async () => {
                     }
                 } catch(e) {
                     console.error(e);
-                    modal.querySelector('.error-message').innerHTML = `Failed to authentificate. Please try again later. (${e.message})`;
+                    modal.querySelector('.error-message').innerHTML = `Failed to authenticate. Please try again later. (${e.message})`;
                 } finally {
                     button.disabled = false;
-                    button.textContent = 'Authentificate';
+                    button.textContent = 'Authenticate';
                     if(tweetId) {
                         callTwitterApi('POST', `/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet`, {}, {
                             variables: {tweet_id: tweetId, dark_request: false},
@@ -164,7 +164,7 @@ function hookIntoTweets() {
         button.dataset.count = tweetCache[id] ? tweetCache[id].count : 0;
         button.addEventListener('click', async () => {
             if(!await getYeahToken()) {
-                return alert('You need to authentificate first (refresh page for auth popup to appear)');
+                return alert('You need to authenticate first (refresh page for auth popup to appear)');
             }
             if(!button.classList.contains('yeahed')) {
                 callYeahApi('/yeah', {
@@ -336,7 +336,7 @@ function hookIntoInteractions() {
     if(addedTab) {
         addedTab.addEventListener('click', async() => {
             if(!await getYeahToken()) {
-                return alert('You need to authentificate first (refresh page for auth popup to appear)');
+                return alert('You need to authenticate first (refresh page for auth popup to appear)');
             }
             let modal = createModal(/*html*/`
                 <h3>Yeahs</h3>
@@ -442,7 +442,7 @@ function hookIntoProfile() {
         span.className = 'profile-stat-text';
 
         let span2 = document.createElement('span');
-        span2.className = 'profile-stat-count';
+        span2.className = 'profile-stat-value';
         span2.innerText = '?';
 
         setTimeout(() => {
@@ -466,7 +466,7 @@ function hookIntoProfile() {
     }
     if(addedTab) addedTab.addEventListener('click', async () => {
         if(!await getYeahToken()) {
-            return alert('You need to authentificate first (refresh page for auth popup to appear)');
+            return alert('You need to authenticate first (refresh page for auth popup to appear)');
         }
         let username = window.location.pathname.split('/')[1];
         let modal = createModal(/*html*/`

@@ -144,10 +144,10 @@ async function appendUser(u, container, label) {
                 </div>
             </a>
         </div>
-        <button class="user-item-btn nice-yeah-button ${u.following ? 'yeah-following' : 'yeah-follow'}">${u.following ? "Following" : "Follow"}</button>
+        <button class="user-yeah-item-btn nice-yeah-button ${u.following ? 'yeah-following' : 'yeah-follow'}">${u.following ? "Following" : "Follow"}</button>
     `;
 
-    let followButton = userElement.querySelector('.user-item-btn');
+    let followButton = userElement.querySelector('.user-yeah-item-btn');
     followButton.addEventListener('click', async () => {
         if (followButton.classList.contains('yeah-following')) {
             try {

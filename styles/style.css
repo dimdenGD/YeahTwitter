@@ -190,7 +190,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     color: var(--yeah-text-color);
 }
 
-.user-item-btn {
+.user-yeah-item-btn {
     float: right;
     position: relative;
     bottom: 52px;
@@ -218,7 +218,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     font-size: 15px;
 }
 
-.user-item-btn:hover {
+.user-yeah-item-btn:hover {
     transition: background-color 0.2s;
 }
 
@@ -252,10 +252,13 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     font-size: 14px;
 }
 .yeah-name {
-    display: inline;
     font-weight: bold;
     color: var(--yeah-text-color);
     font-size: 16px;
+    max-width: 269px;
+    overflow: hidden;
+    display: inline-block;
+    white-space: pre;
 }
 .yeah-handle {
     display: inline;
