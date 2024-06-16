@@ -218,6 +218,7 @@ function hookIntoTweets() {
         img.src = tweetCache[id] && tweetCache[id].yeahed ? chrome.runtime.getURL('images/yeah_on32.png') : chrome.runtime.getURL('images/yeah_off32.png');
         if(tweetCache[id] && tweetCache[id].yeahed) button.classList.add('yeahed');
         img.className = 'yeah-image';
+        img.draggable = false;
         button.appendChild(img);
 
         let counter = document.createElement('span');
