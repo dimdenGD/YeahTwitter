@@ -166,7 +166,7 @@ function hookIntoTweets() {
         if(tweet.dataset.yeahed) continue;
         tweet.dataset.yeahed = true;
 
-        let linkToTweet = Array.from(tweet.querySelectorAll('a[role="link"]')).find(a => a.href.includes('/status/'));
+        let linkToTweet = Array.from(tweet.querySelectorAll('a[role="link"]')).find(a => a.href.includes('/status/') && !a.href.includes('/photo') && !a.href.includes('/video'));
         let oldTwitter = false;
         if(!linkToTweet) {
             let tweetDiv = tweet.closest('.tweet, .yeah-tweet');
