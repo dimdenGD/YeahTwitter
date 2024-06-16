@@ -391,8 +391,10 @@ function hookIntoInteractions() {
             
             for(let id of data) {
                 let user = lookup.find(user => user.id_str === id);
-                appendUser(user, list);
-                addedUsers.push(user.id_str);
+                if(user) {
+                    appendUser(user, list);
+                    addedUsers.push(user.id_str);
+                }
             }
 
             let modalContent = modal.querySelector('.yeah-modal-content');
@@ -419,8 +421,10 @@ function hookIntoInteractions() {
                         if(addedUsers.includes(id)) continue;
 
                         let user = lookup.find(user => user.id_str === id);
-                        appendUser(user, list);
-                        addedUsers.push(user.id_str);
+                        if(user) {
+                            appendUser(user, list);
+                            addedUsers.push(user.id_str);
+                        }
                     }
                     loadingMore = false;
                     modal.querySelector('.loader').hidden = true;
@@ -527,8 +531,10 @@ function hookIntoProfile() {
         let addedPosts = [];
         for(let id of data) {
             let tweet = tweets.find(tweet => tweet.id_str === id);
-            appendTweet(tweet, list, {}, user);
-            addedPosts.push(tweet.id_str);
+            if(tweet) {
+                appendTweet(tweet, list, {}, user);
+                addedPosts.push(tweet.id_str);
+            }
         }
         modal.querySelector('.loader').hidden = true;
 
@@ -555,8 +561,10 @@ function hookIntoProfile() {
                 for(let id of data) {
                     if(addedPosts.includes(id)) continue;
                     let tweet = tweets.find(tweet => tweet.id_str === id);
-                    appendTweet(tweet, list, {}, user);
-                    addedPosts.push(tweet.id_str);
+                    if(tweet) {
+                        appendTweet(tweet, list, {}, user);
+                        addedPosts.push(tweet.id_str);
+                    }
                 }
                 loadingMore = false;
                 modal.querySelector('.loader').hidden = true;
