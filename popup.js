@@ -18,6 +18,7 @@ document.getElementById('save').addEventListener('click', async () => {
 });
 
 document.getElementById('clear-token').addEventListener('click', async () => {
+    if(!confirm('Are you sure you want to clear all account tokens?')) return;
     chrome.storage.local.remove(['yeahToken', 'yeahTokens'], () => {
         document.getElementById('clear-token').innerText = 'Tokens cleared!';
         setTimeout(() => {
