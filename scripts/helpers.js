@@ -137,7 +137,7 @@ function getYeahToken() {
 function getYeahSettings() {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get('settings', result => {
-            if(result) {
+            if(result && result.settings) {
                 resolve(result.settings);
             } else {
                 resolve({});

@@ -8,6 +8,8 @@ const fs = require('fs');
 const path = require('path');
 const AdmZip = require('adm-zip');
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 async function copyDir(src, dest) {
     const entries = await fsp.readdir(src, { withFileTypes: true });
     await fsp.mkdir(dest);
@@ -25,7 +27,25 @@ async function copyDir(src, dest) {
 
 if(!fs.existsSync('./build')) {
     fs.mkdirSync('./build');
+} else {
+    fs.rmSync('./build', { recursive: true });
+    fs.mkdirSync('./build');
 }
+
+console.log("Creating userscript...");
+let manifest = JSON.parse(fs.readFileSync('./manifest.json', 'utf8'));
+let fullCode = fs.readFileSync('./us.js', 'utf8').replaceAll('${manifest.version}', manifest.version);
+for(let i in manifest.content_scripts) {
+    let script = manifest.content_scripts[i];
+    for(let j in script.js) {
+        let code = fs.readFileSync(script.js[j], 'utf8')
+            .replaceAll('fetch(', 'GM_fetch(')
+            .replace(/chrome\.runtime\.getURL\('(.+?)'\)/gm, "'https://raw.githubusercontent.com/dimdenGD/YeahTwitter/main/$1'");
+        fullCode += `\n\n// ${script.js[j]}\n` + code;
+    }
+}
+
+fs.writeFileSync('./build/userscript.js', fullCode);
 
 if(fs.existsSync('./build/chrome')) {
     fs.rmSync('./build/chrome', { recursive: true });
@@ -62,6 +82,8 @@ copyDir('./', './build/firefox').then(async () => {
     fs.unlinkSync('./build/chrome/pack.js');
     fs.unlinkSync('./build/firefox/.gitignore');
     fs.unlinkSync('./build/chrome/.gitignore');
+    fs.unlinkSync('./build/firefox/us.js');
+    fs.unlinkSync('./build/chrome/us.js');
 
     console.log("Patched!");
     if (fs.existsSync('./build/firefox.zip')) {
@@ -94,6 +116,8 @@ copyDir('./', './build/firefox').then(async () => {
     }
     console.log("Zipped!");
     console.log("Deleting temporary folders...");
+
+    await sleep(10);
     fs.rmSync('./build/chrome', { recursive: true, force: true });
     fs.rmSync('./build/firefox', { recursive: true, force: true });
     console.log("Deleted!");
