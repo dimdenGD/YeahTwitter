@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeah! for Twitter</title>
+    <style>
+        h1 {
+            width: 400px;
+        }
+        body {
+            padding-bottom: 10px;
+        }
+        label > * {
+            vertical-align: middle;
+        }
+        .logo {
+            position: relative;
+            top: 3px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1><img src="/images/logo32.png" class="logo" alt="Logo" width="24" height="24">Yeah! for Twitter</h1>
+    <div>
+        <label>
+            <input type="checkbox" id="dontLike"> 
+            <span>Don't like tweet on Yeah</span>
+        </label>
+        <br>
+        <br>
+        <button id="save">Save</button>
+        <button id="clear-token">Clear account token</button>
+    </div>
+    <script src="/popup.js"></script>
+</body>
+</html>

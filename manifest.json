@@ -35,6 +35,13 @@
     "48": "/images/logo48.png",
     "128": "/images/logo128.png"
   },
+  "action": {
+    "default_icon": {
+      "128": "/images/logo128.png"
+    },
+    "default_title": "Extension settings",
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*", "https://x.com/*"],

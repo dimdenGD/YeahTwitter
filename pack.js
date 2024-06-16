@@ -54,6 +54,8 @@ copyDir('./', './build/firefox').then(async () => {
             strict_min_version: "101.0"
         }
     };
+    manifest.browser_action = manifest.action;
+    delete manifest.action;
 
     fs.writeFileSync('./build/firefox/manifest.json', JSON.stringify(manifest, null, 2));
     fs.unlinkSync('./build/firefox/pack.js');

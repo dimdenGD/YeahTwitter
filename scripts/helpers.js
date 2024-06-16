@@ -113,6 +113,18 @@ function getYeahToken() {
     });
 }
 
+function getYeahSettings() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get('settings', result => {
+            if(result) {
+                resolve(result.settings);
+            } else {
+                resolve({});
+            } 
+        });
+    });
+}
+
 function formatLargeNumber(n) {
     let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
     if (n >= 1e3) {

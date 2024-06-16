@@ -182,7 +182,8 @@ function hookIntoTweets() {
                 }
                 let likeButton = tweet.querySelector('button[data-testid="like"], .tweet-interact-favorite:not(.tweet-interact-favorited)');
                 if(likeButton) {
-                    likeButton.click();
+                    let settings = await getYeahSettings();
+                    if(!settings.dontLike) likeButton.click();
                 }
             } else {
                 callYeahApi('/unyeah', {
@@ -540,19 +541,6 @@ function hookIntoProfile() {
         });
     });
 }
-
-let lastPresses = "";
-document.addEventListener('keydown', e => {
-    let key = e.key;
-    if(lastPresses.length >= 50) lastPresses = lastPresses.slice(1);
-    lastPresses += key;
-
-    if(lastPresses.endsWith('clearmyyeahtokenplzz')) {
-        lastPresses = "";
-        chrome.storage.local.remove('yeahToken');
-        alert('YeahToken cleared!');
-    }
-});
 
 setInterval(hookIntoTweets, 250);
 setInterval(hookIntoInteractions, 500);
