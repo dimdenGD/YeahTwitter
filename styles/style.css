@@ -118,10 +118,10 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
 .yeah-modal-close {
     color: #aaaaaa;
     float: right;
-    font-size: 20px;
+    font-size: 28px;
     font-weight: bold;
     top: 0;
-    right: 5px;
+    right: 8px;
     position: absolute;
 }
 

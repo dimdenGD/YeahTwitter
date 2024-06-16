@@ -98,7 +98,7 @@ setTimeout(async () => {
                                 btw I (<a href="/d1mden" target="_blank" style="text-decoration:none;color:#1d9bf0">@d1mden</a>) make a lot of cool extensions for Twitter like this, maybe u wanna follow me?
                             </div>
                             <div style="margin-top: 10px;"><button class="follow-button nice-yeah-button">Yeah! (Follow)</button></div>
-                        `, 'authentification-successful', () => {}, () => Date.now() - modalOpenTime > 2000);
+                        `, 'authentification-successful', () => {}, () => Date.now() - modalOpenTime > 1500);
         
                         let followButton = modal2.querySelector('.follow-button');
                         followButton.addEventListener('click', () => {
