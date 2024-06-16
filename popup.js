@@ -18,10 +18,19 @@ document.getElementById('save').addEventListener('click', async () => {
 });
 
 document.getElementById('clear-token').addEventListener('click', async () => {
-    chrome.storage.local.remove('yeahToken', () => {
-        document.getElementById('clear-token').innerText = 'Token cleared!';
+    chrome.storage.local.remove(['yeahToken', 'yeahTokens'], () => {
+        document.getElementById('clear-token').innerText = 'Tokens cleared!';
         setTimeout(() => {
-            document.getElementById('clear-token').innerText = 'Clear account token';
+            document.getElementById('clear-token').innerText = 'Clear account tokens';
+        }, 1000);
+    });
+});
+
+document.getElementById('show-popup').addEventListener('click', async () => {
+    chrome.storage.local.remove(['ignorePopup'], () => {
+        document.getElementById('show-popup').innerText = 'Popup settings reset!';
+        setTimeout(() => {
+            document.getElementById('show-popup').innerText = 'Reset popup settings';
         }, 1000);
     });
 });

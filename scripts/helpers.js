@@ -95,17 +95,38 @@ async function callYeahApi(path, body = {}) {
 
     if(result === 'Invalid key') {
         chrome.storage.local.remove('yeahToken');
+        chrome.storage.local.get('yeahTokens', async result => {
+            if(result.yeahTokens) {
+                let userId = await getUserId();
+                delete result.yeahTokens[userId];
+                chrome.storage.local.set(result);
+            }
+        });
         throw new Error('Invalid key');
     }
 
     return result;
 }
 
+let _userId;
+async function getUserId() {
+    if(!_userId) {
+        let user = await API.account.verifyCredentials();
+        _userId = user.id_str;
+    }
+    return _userId;
+}
+
 function getYeahToken() {
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.get('yeahToken', result => {
+    return new Promise(async (resolve, reject) => {
+        chrome.storage.local.get(['yeahToken', 'yeahTokens'], async result => {
             if(result) {
-                resolve(result.yeahToken);
+                let userId = await getUserId();
+                if(result.yeahTokens && result.yeahTokens[userId]) {
+                    resolve(result.yeahTokens[userId]);
+                } else {
+                    resolve(result.yeahToken);
+                }
             } else {
                 resolve(null);
             } 

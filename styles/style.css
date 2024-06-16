@@ -292,3 +292,14 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
         top: 10%;
     }
 }
+
+.welcome-modal .subtle {
+    font-size: 12px;
+    color: var(--yeah-text-color);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.welcome-modal .subtle:hover {
+    text-decoration: underline;
+}

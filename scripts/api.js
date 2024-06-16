@@ -221,6 +221,27 @@ function parseTweet(res) {
 
 
 const API = {
+    account: {
+        verifyCredentials: () => {
+            return new Promise((resolve, reject) => {
+                fetch(`https://api.${location.hostname}/1.1/account/verify_credentials.json`, {
+                    headers: {
+                        "authorization": publicToken,
+                        "x-csrf-token": getCsrf(),
+                        "x-twitter-auth-type": "OAuth2Session"
+                    },
+                    credentials: "include"
+                }).then(response => response.json()).then(data => {
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    resolve(data);
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+    },
     user: {
         get: (val, byId = true) => {
             return new Promise((resolve, reject) => {

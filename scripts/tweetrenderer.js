@@ -967,23 +967,8 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
                 t.quoted_status = undefined;
             }
         }
-        let followUserText, unfollowUserText, blockUserText, unblockUserText;
         let mentionedUserText = ``;
         let quoteMentionedUserText = ``;
-        if(
-            "Follow @$SCREEN_NAME$".includes('$SCREEN_NAME$') && "Unfollow @$SCREEN_NAME$".includes('$SCREEN_NAME$') &&
-            "Block @$SCREEN_NAME$".includes('$SCREEN_NAME$') && "Unblock @$SCREEN_NAME$".includes('$SCREEN_NAME$')
-        ) {
-            followUserText = `${"Follow @$SCREEN_NAME$".replace('$SCREEN_NAME$', t.user.screen_name)}`;
-            unfollowUserText = `${"Unfollow @$SCREEN_NAME$".replace('$SCREEN_NAME$', t.user.screen_name)}`;
-            blockUserText = `${"Block @$SCREEN_NAME$".replace('$SCREEN_NAME$', t.user.screen_name)}`;
-            unblockUserText = `${"Unblock @$SCREEN_NAME$".replace('$SCREEN_NAME$', t.user.screen_name)}`;
-        } else {
-            followUserText = `${"Follow @$SCREEN_NAME$"} @${t.user.screen_name}`;
-            unfollowUserText = `${"Unfollow @$SCREEN_NAME$"} @${t.user.screen_name}`;
-            blockUserText = `${"Block @$SCREEN_NAME$"} @${t.user.screen_name}`;
-            unblockUserText = `${"Unblock @$SCREEN_NAME$"} @${t.user.screen_name}`;
-        }
         if(t.in_reply_to_screen_name && t.display_text_range) {
             t.entities.user_mentions.forEach(user_mention => {
                 if(user_mention.indices[0] < t.display_text_range[0]){
@@ -1134,7 +1119,6 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
             }
         }
 
-        let footerFavorites = tweet.getElementsByClassName('tweet-footer-favorites')[0];
         if(t.card) {
             generateCard(t, tweet, user);
         }
@@ -1154,162 +1138,11 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
             }
             tweet.querySelector('.tweet-top').append(icon, span);
         }
-        const tweetBody = tweet.getElementsByClassName('tweet-body')[0];
-        const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
-        const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
-        const tweetTranslateAfter = tweet.getElementsByClassName('tweet-translate-after')[0];
-        const tweetQuoteTranslate = tweet.getElementsByClassName('tweet-quote-translate')[0];
+
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
         const tweetMediaQuote = tweet.getElementsByClassName('tweet-media-quote')[0];
-        const tweetBodyQuoteText = tweet.getElementsByClassName('tweet-body-text-quote')[0];
-        const tweetDeleteBookmark = tweet.getElementsByClassName('tweet-delete-bookmark')[0];
-
-        const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
-        const tweetReplyUpload = tweet.getElementsByClassName('tweet-reply-upload')[0];
-        const tweetReplyAddEmoji = tweet.getElementsByClassName('tweet-reply-add-emoji')[0];
-        const tweetReply = tweet.getElementsByClassName('tweet-reply')[0];
-        const tweetReplyButton = tweet.getElementsByClassName('tweet-reply-button')[0];
-        const tweetReplyError = tweet.getElementsByClassName('tweet-reply-error')[0];
-        const tweetReplyText = tweet.getElementsByClassName('tweet-reply-text')[0];
-        const tweetReplyChar = tweet.getElementsByClassName('tweet-reply-char')[0];
-        const tweetReplyMedia = tweet.getElementsByClassName('tweet-reply-media')[0];
-
         const tweetInteract = tweet.getElementsByClassName('tweet-interact')[0];
-        const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
-        const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
-        const tweetInteractFavorite = tweet.getElementsByClassName('tweet-yeah-interact-favorite')[0];
-        const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
-        const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
-
         const tweetFooter = tweet.getElementsByClassName('tweet-footer')[0];
-        const tweetFooterReplies = tweet.getElementsByClassName('tweet-footer-stat-replies')[0];
-        const tweetFooterRetweets = tweet.getElementsByClassName('tweet-footer-stat-retweets')[0];
-        const tweetFooterFavorites = tweet.getElementsByClassName('tweet-footer-stat-favorites')[0];
-
-        const tweetQuote = tweet.getElementsByClassName('tweet-quote')[0];
-        const tweetQuoteCancel = tweet.getElementsByClassName('tweet-quote-cancel')[0];
-        const tweetQuoteUpload = tweet.getElementsByClassName('tweet-quote-upload')[0];
-        const tweetQuoteAddEmoji = tweet.getElementsByClassName('tweet-quote-add-emoji')[0];
-        const tweetQuoteButton = tweet.getElementsByClassName('tweet-quote-button')[0];
-        const tweetQuoteError = tweet.getElementsByClassName('tweet-quote-error')[0];
-        const tweetQuoteText = tweet.getElementsByClassName('tweet-quote-text')[0];
-        const tweetQuoteChar = tweet.getElementsByClassName('tweet-quote-char')[0];
-        const tweetQuoteMedia = tweet.getElementsByClassName('tweet-quote-media')[0];
-
-        const tweetInteractRetweetMenu = tweet.getElementsByClassName('tweet-interact-retweet-menu')[0];
-        const tweetInteractRetweetMenuRetweet = tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0];
-        const tweetInteractRetweetMenuQuote = tweet.getElementsByClassName('tweet-interact-retweet-menu-quote')[0];
-        const tweetInteractRetweetMenuQuotes = tweet.getElementsByClassName('tweet-interact-retweet-menu-quotes')[0];
-        const tweetInteractRetweetMenuRetweeters = tweet.getElementsByClassName('tweet-interact-retweet-menu-retweeters')[0];
-
-        const tweetInteractMoreMenu = tweet.getElementsByClassName('tweet-interact-more-menu')[0];
-        const tweetInteractMoreMenuCopy = tweet.getElementsByClassName('tweet-interact-more-menu-copy')[0];
-        const tweetInteractMoreMenuCopyTweetId = tweet.getElementsByClassName('tweet-interact-more-menu-copy-tweet-id')[0];
-        const tweetInteractMoreMenuLog = tweet.getElementsByClassName('tweet-interact-more-menu-log')[0];
-        const tweetInteractMoreMenuCopyUserId = tweet.getElementsByClassName('tweet-interact-more-menu-copy-user-id')[0];
-        const tweetInteractMoreMenuEmbed = tweet.getElementsByClassName('tweet-interact-more-menu-embed')[0];
-        const tweetInteractMoreMenuShare = tweet.getElementsByClassName('tweet-interact-more-menu-share')[0];
-        const tweetInteractMoreMenuShareDMs = tweet.getElementsByClassName('tweet-interact-more-menu-share-dms')[0];
-        const tweetInteractMoreMenuNewtwitter = tweet.getElementsByClassName('tweet-interact-more-menu-newtwitter')[0];
-        const tweetInteractMoreMenuAnalytics = tweet.getElementsByClassName('tweet-interact-more-menu-analytics')[0];
-        const tweetInteractMoreMenuRefresh = tweet.getElementsByClassName('tweet-interact-more-menu-refresh')[0];
-        const tweetInteractMoreMenuMute = tweet.getElementsByClassName('tweet-interact-more-menu-mute')[0];
-        const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
-        const tweetInteractMoreMenuDownloadGifs = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-download-gif'));
-        const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
-        const tweetInteractMoreMenuPin = tweet.getElementsByClassName('tweet-interact-more-menu-pin')[0];
-        const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
-        const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
-        const tweetInteractMoreMenuMuteUser = tweet.getElementsByClassName('tweet-interact-more-menu-mute-user')[0];
-        const tweetInteractMoreMenuListsAction = tweet.getElementsByClassName('tweet-interact-more-menu-lists-action')[0];  
-        const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
-        const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
-        const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
-        const tweetInteractMoreMenuSeparate = tweet.getElementsByClassName('tweet-interact-more-menu-separate')[0];
-
-        if(tweetInteractMoreMenuLog) tweetInteractMoreMenuLog.addEventListener('click', () => {
-            console.log(t);
-        });
-
-        if(tweetInteractMoreMenuSeparate) tweetInteractMoreMenuSeparate.addEventListener('click', () => {
-            tweetBodyText.style = `
-                padding-top: 20px!important;
-                display: block;
-                font-size: 26px;
-                line-height: unset;
-                padding-bottom: 20px;
-            `;
-            tweetInteractMoreMenuSeparate.style.display = 'none';
-        });
-
-        // Lists
-        if(tweetInteractMoreMenuListsAction) tweetInteractMoreMenuListsAction.addEventListener('click', async () => {
-            createModal(`
-                <h1 class="cool-header">${"Add/remove from list"}</h1>
-                <div id="modal-lists"></div>
-            `);
-            let lists = await API.list.getOwnerships(user.id_str, t.user.id_str);
-            let container = document.getElementById('modal-lists');
-            for(let i in lists) {
-                let l = lists[i];
-                let listElement = document.createElement('div');
-                listElement.classList.add('list-item');
-                listElement.innerHTML = html`
-                    <div style="display:inline-block;">
-                        <a href="/i/lists/${l.id_str}" class="following-item-link">
-                            <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                            <div class="following-item-text" style="position: relative;bottom: 12px;">
-                                <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
-                                <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : "No description."}</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div style="display:inline-block;float: right;margin-top: 5px;">
-                        <button class="nice-button">${l.is_member ? "Remove" : "Add"}</button>
-                    </div>
-                `;
-                container.appendChild(listElement);
-                listElement.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
-                    if(l.is_member) {
-                        await API.list.removeMember(l.id_str, t.user.id_str);
-                        l.is_member = false;
-                        listElement.getElementsByClassName('nice-button')[0].innerText = "Add";
-                    } else {
-                        await API.list.addMember(l.id_str, t.user.id_str);
-                        l.is_member = true;
-                        listElement.getElementsByClassName('nice-button')[0].innerText = "Remove";
-                    }
-                    l.is_member = !l.is_member;
-                });
-            }
-        });
-
-        // moderating tweets
-        if(tweetInteractMoreMenuHide) tweetInteractMoreMenuHide.addEventListener('click', async () => {
-            if(t.moderated) {
-                try {
-                    await API.tweet.unmoderate(t.id_str);
-                } catch(e) {
-                    console.error(e);
-                    alert(e);
-                    return;
-                }
-                tweetInteractMoreMenuHide.innerText = "Hide tweet";
-                t.moderated = false;
-            } else {
-                let sure = confirm("Are you sure you want to hide this tweet?");
-                if(!sure) return;
-                try {
-                    await API.tweet.moderate(t.id_str);
-                } catch(e) {
-                    console.error(e);
-                    alert(e);
-                    return;
-                }
-                tweetInteractMoreMenuHide.innerText = "Unhide tweet";
-                t.moderated = true;
-            }
-        });
 
         // community notes
         if(t.birdwatch) {
@@ -1361,101 +1194,6 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
                 a.click();
             });
         }
-
-        // Translate
-        t.translated = false;
-        let translating = false;
-        if(tweetTranslate || tweetTranslateAfter) {
-            (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
-                if(t.translated || translating) return;
-                translating = true;
-                let translated = await API.tweet.translate(t.id_str);
-                translating = false;
-                t.translated = true;
-                (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
-                if(!translated.translated_lang || !translated.text) return;
-                let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
-                if(translated.text.trim() === tt) return;
-                if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
-                let translatedMessage;
-                if("Translated from $LANGUAGE$".includes("$LANGUAGE$")) {
-                    translatedMessage = "Translated from $LANGUAGE$".replace("$LANGUAGE$", `[${translated.translated_lang}]`);
-                } else {
-                    translatedMessage = `${"Translated from $LANGUAGE$"} [${translated.translated_lang}]`;
-                }
-                let translatedT = {
-                    full_text: translated.text,
-                    entities: translated.entities
-                }
-                let translatedFrom = document.createElement('span');
-                translatedFrom.classList.add('translated-from');
-                translatedFrom.innerText = translatedMessage;
-                let translatedText = document.createElement('span');
-                translatedText.classList.add('tweet-translated-text');
-                translatedText.innerHTML = await renderTweetBodyHTML(translatedT);
-                tweetBodyText.append(document.createElement('br'), translatedFrom, translatedText);
-            });
-        }
-
-        // Bookmarks
-        let switchingBookmark = false;
-        let switchBookmark = () => {
-            if(switchingBookmark) return;
-            switchingBookmark = true;
-            if(t.bookmarked) {
-                API.bookmarks.delete(t.id_str).then(() => {
-                    toast.info("Unbookmarked tweet");
-                    switchingBookmark = false;
-                    if(tweetDeleteBookmark) {
-                        tweet.remove();
-                        if(timelineContainer.children.length === 0) {
-                            timelineContainer.innerHTML = html`<div style="color:var(--light-gray)">${"Wow, such empty"}</div>`;
-                            document.getElementById('delete-all').hidden = true;
-                        }
-                        return;
-                    }
-                    t.bookmarked = false;
-                    t.bookmark_count--;
-                    tweetInteractMoreMenuBookmark.innerText = "Bookmark tweet";
-                    if(tweetInteractBookmark) {
-                        tweetInteractBookmark.classList.remove('tweet-interact-bookmarked');
-                        tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
-                        tweetInteractBookmark.dataset.val = t.bookmark_count;
-                    }
-                }).catch(e => {
-                    switchingBookmark = false;
-                    console.error(e);
-                    alert(e);
-                });
-            } else {
-                API.bookmarks.create(t.id_str).then(() => {
-                    toast.info("Bookmarked tweet");
-                    switchingBookmark = false;
-                    t.bookmarked = true;
-                    t.bookmark_count++;
-                    tweetInteractMoreMenuBookmark.innerText = "Remove bookmark";
-                    if(tweetInteractBookmark) {
-                        tweetInteractBookmark.classList.add('tweet-interact-bookmarked');
-                        tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
-                        tweetInteractBookmark.dataset.val = t.bookmark_count;
-                    }
-                }).catch(e => {
-                    switchingBookmark = false;
-                    console.error(e);
-                    alert(e);
-                });
-            }
-        };
-        if(tweetInteractBookmark) tweetInteractBookmark.addEventListener('click', switchBookmark);
-        if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', switchBookmark);
-        if(tweetDeleteBookmark) tweetDeleteBookmark.addEventListener('click', async () => {
-            await API.bookmarks.delete(t.id_str);
-            tweet.remove();
-            if(timelineContainer.children.length === 0) {
-                timelineContainer.innerHTML = html`<div style="color:var(--light-gray)">${"Wow, such empty"}</div>`;
-                document.getElementById('delete-all').hidden = true;
-            }
-        });
 
         // Media
         if (t.extended_entities && t.extended_entities.media) {

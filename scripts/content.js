@@ -18,6 +18,11 @@ Promise.all([
 
 setTimeout(async () => {
     let yeahToken = await getYeahToken();
+    let ignorePopup = await new Promise(resolve => chrome.storage.local.get('ignorePopup', result => resolve(result.ignorePopup)));
+    let userId = await getUserId();
+    if(!yeahToken && ignorePopup && ignorePopup[userId]) {
+        return;
+    }
     if(!yeahToken) {
             let modalOpenTime = Date.now();
             let modal = createModal(/*html*/`
@@ -39,6 +44,9 @@ setTimeout(async () => {
                 <div class="error-message"></div>
                 <div>
                     <button class="auth-button nice-yeah-button">Authenticate</button>
+                </div>
+                <div style="margin-top: 10px">
+                    <span class="subtle dontshow" role="button">Never show this popup for this account</span>
                 </div>
             `, 'welcome-modal', () => {}, () => Date.now() - modalOpenTime > 1250);
         
@@ -72,7 +80,11 @@ setTimeout(async () => {
                         private_token: tokens.private_token
                     });
                     if(res === 'success') {
-                        chrome.storage.local.set({yeahToken: tokens.private_token});
+                        chrome.storage.local.get('yeahTokens', result => {
+                            if(!result.yeahTokens) result.yeahTokens = {};
+                            result.yeahTokens[userId] = tokens.private_token;
+                            chrome.storage.local.set(result);
+                        });
                         modal.removeModal();
         
                         modalOpenTime = Date.now();
@@ -130,6 +142,17 @@ setTimeout(async () => {
                         });
                     }
                 }
+            });
+
+            let dontshow  = modal.querySelector('.dontshow');
+            dontshow.addEventListener('click', () => {
+                chrome.storage.local.get('ignorePopup', result => {
+                    if(!result.ignorePopup) result.ignorePopup = {};
+                    result.ignorePopup[userId] = true;
+                    chrome.storage.local.set(result);
+                    modal.removeModal();
+                    alert('Popup will not show again for this account. If you want to show it again, press on extension icon and press "Reset popup settings".');
+                });
             });
         };
 }, 1000);
