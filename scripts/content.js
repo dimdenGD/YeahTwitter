@@ -225,7 +225,8 @@ function hookIntoTweets() {
                 }
                 let likeButton = tweet.querySelector('button[data-testid="unlike"], .tweet-interact-favorite.tweet-interact-favorited');
                 if(likeButton) {
-                    likeButton.click();
+                    let settings = await getYeahSettings();
+                    if(!settings.dontLike) likeButton.click();
                 }
             }
         });
