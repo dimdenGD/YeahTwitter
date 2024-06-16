@@ -26,6 +26,9 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     flex-direction: row;
     flex: 1;
     justify-content: flex-start;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 .yeah-button-container-oldtwitter {
