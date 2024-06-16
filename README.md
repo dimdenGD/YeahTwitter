@@ -5,7 +5,7 @@ This extension supports both new Twitter and OldTwitter!
 
 ## Installation
 **Chrome Web Store:** https://chromewebstore.google.com/detail/yeah-for-twitter/haebjcgjcobeedihnmhcapfblbjdaimb   
-**Firefox Add-ons:** *to be added*
+**Firefox Add-ons:** https://addons.mozilla.org/en-US/firefox/addon/yeah-for-twitter/  
 
 ## Manual Installation
 1. Go to [Releases](https://github.com/dimdenGD/YeahTwitter/releases) page.
