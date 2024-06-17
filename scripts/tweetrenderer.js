@@ -815,13 +815,6 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
         return;
     }
     try {
-        if(typeof seenReplies !== 'undefined' && !options.ignoreSeen) {
-            if(seenReplies.includes(t.id_str)) return;
-            seenReplies.push(t.id_str);
-        }
-        if(typeof seenThreads !== 'undefined' && !options.ignoreSeen) {
-            if(seenThreads.includes(t.id_str)) return;
-        }
         // verification
         if(t.user.ext_verified_type) {
             t.user.verified_type = t.user.ext_verified_type;
@@ -845,52 +838,22 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
         t.element = tweet;
         t.options = options;
 
-        if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments") && !document.querySelector('.modal')) {
-            tweet.addEventListener('click', async e => {
-                if (!e.target.closest(".tweet-button") && !e.target.closest(".tweet-body-text-span") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
-                    document.getElementById('loading-box').hidden = false;
-                    savePageData();
-                    history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}`);
-                    updateSubpage();
-                    mediaToUpload = [];
-                    linkColors = {};
-                    cursor = undefined;
-                    seenReplies = [];
-                    mainTweetLikers = [];
-                    let restored = await restorePageData();
-                    let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-                    if(subpage === 'tweet' && !restored) {
-                        updateReplies(id);
-                    } else if(subpage === 'likes') {
-                        updateLikes(id);
-                    } else if(subpage === 'retweets') {
-                        updateRetweets(id);
-                    } else if(subpage === 'retweets_with_comments') {
-                        updateRetweetsWithComments(id);
+        if(!options.mainTweet) {
+            tweet.addEventListener('click', e => {
+                if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-body-text-span") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
+                    let tweetData = t;
+                    if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
+                    tweet.classList.add('tweet-preload');
+                    let selection = window.getSelection();
+                    if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`div.tweet[data-tweet-id="${tweetData.id_str}"]`)) {
+                        return;
                     }
-                    renderDiscovery();
-                    renderTrends();
-                    currentLocation = location.pathname;
+                    let a = document.createElement('a');
+                    a.href = `/${tweetData.user.screen_name}/status/${tweetData.id_str}`;
+                    a.target = '_blank';
+                    a.click();
                 }
             });
-        } else {
-            if(!options.mainTweet) {
-                tweet.addEventListener('click', e => {
-                    if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-body-text-span") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
-                        let tweetData = t;
-                        if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
-                        tweet.classList.add('tweet-preload');
-                        let selection = window.getSelection();
-                        if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`div.tweet[data-tweet-id="${tweetData.id_str}"]`)) {
-                            return;
-                        }
-                        let a = document.createElement('a');
-                        a.href = `/${tweetData.user.screen_name}/status/${tweetData.id_str}`;
-                        a.target = '_blank';
-                        a.click();
-                    }
-                });
-            }
         }
         tweet.addEventListener('mousedown', e => {
             if(e.button === 1) {
@@ -1238,8 +1201,8 @@ async function appendTweet(t, timelineContainer, options = {}, user) {
             createModal(/*html*/`
                 <div style="max-width:700px">
                     <span style="font-size:14px;color:var(--default-text-color)">
-                        <h2 style="margin-top: 0">${"Something went wrong"}</h2>
-                        ${"Some tweets couldn't be loaded due to errors."}<br>
+                        <h2 style="margin-top: 0">Something went wrong</h2>
+                        Some tweets couldn't be loaded due to errors.<br>
                         ${"Please copy text below and send it to $AT1$issue tracker$AT2$ or $AT3$my email$AT2$. Thank you!".replace('$AT1$', "<a target='_blank' href='https://github.com/dimdenGD/YeahTwitter/issues'>").replace(/\$AT2\$/g, '</a>').replace("$AT3$", "<a target='_blank' href='mailto:admin@dimden.dev'>")}
                     </span>
                     <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">

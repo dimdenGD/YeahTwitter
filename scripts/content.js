@@ -537,7 +537,7 @@ function hookIntoProfile() {
         for(let id of data) {
             let tweet = tweets.find(tweet => tweet.id_str === id);
             if(tweet) {
-                appendTweet(tweet, list, {}, user);
+                await appendTweet(tweet, list, {}, user);
                 addedPosts.push(tweet.id_str);
             }
         }
@@ -567,7 +567,7 @@ function hookIntoProfile() {
                     if(addedPosts.includes(id)) continue;
                     let tweet = tweets.find(tweet => tweet.id_str === id);
                     if(tweet) {
-                        appendTweet(tweet, list, {}, user);
+                        await appendTweet(tweet, list, {}, user);
                         addedPosts.push(tweet.id_str);
                     }
                 }
