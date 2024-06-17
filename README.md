@@ -5,13 +5,13 @@ This extension supports both new Twitter and OldTwitter!
 
 ## Installation
 Chrome, Edge, Opera, Brave, Vivaldi, etc:  
-<a href="https://chromewebstore.google.com/detail/yeah-for-twitter/haebjcgjcobeedihnmhcapfblbjdaimb"><img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/HRs9MPufa1J1h5glNhut.png" alt="Chrome Web Store" width="200"/></a>
+<a href="https://chromewebstore.google.com/detail/yeah-for-twitter/haebjcgjcobeedihnmhcapfblbjdaimb" target="_blank"><img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/HRs9MPufa1J1h5glNhut.png" alt="Chrome Web Store" width="200"/></a>
 
 Firefox, Waterfox, LibreWolf, Floorp, etc:  
-<a href="https://addons.mozilla.org/addon/yeah-for-twitter/"><img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt="Firefox Add-ons" width="200"/></a>
+<a href="https://addons.mozilla.org/addon/yeah-for-twitter/" target="_blank"><img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt="Firefox Add-ons" width="200"/></a>
 
-Userscript (Tampermonkey, Greasemonkey, Violentmonkey, etc.):  
-### <a href="https://greasyfork.org/en/scripts/498118-yeah-for-twitter"><img src="https://greasyfork.org/vite/assets/blacklogo96-sWE0jP07.png" alt="Userscript" width="50"/>Userscript</a>
+Userscript (Tampermonkey, Greasemonkey, Violentmonkey, etc):  
+### <a href="https://greasyfork.org/en/scripts/498118-yeah-for-twitter" target="_blank"><img src="https://greasyfork.org/vite/assets/blacklogo96-sWE0jP07.png" alt="Userscript" width="50"/>Userscript</a>
 ## Manual Installation
 1. Go to [Releases](https://github.com/dimdenGD/YeahTwitter/releases) page.
 2. Download `chrome.zip` if you're on Chromium based browsers (Chrome, Edge, Opera, Brave, etc.) or `firefox.zip` if you're on Firefox.
