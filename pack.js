@@ -132,7 +132,7 @@ copyDir('./', './build/firefox').then(async () => {
     console.log("Zipped!");
     console.log("Deleting temporary folders...");
 
-    await sleep(10);
+    await sleep(100);
     fs.rmSync('./build/chrome', { recursive: true, force: true });
     fs.rmSync('./build/firefox', { recursive: true, force: true });
     console.log("Deleted!");
