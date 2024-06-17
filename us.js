@@ -178,3 +178,5 @@ fontstyle.innerHTML = `
 }
 `;
 document.head.appendChild(fontstyle);
+
+let YEAH_images = {};
