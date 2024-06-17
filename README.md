@@ -4,10 +4,10 @@ This extension supports both new Twitter and OldTwitter!
 ![Screenshot](https://lune.dimden.dev/a602b6e6a2af.gif)  
 
 ## Installation
-Chrome, Edge,Opera, Brave, Vivaldi, etc.:  
+Chrome, Edge, Opera, Brave, Vivaldi, etc:  
 <a href="https://chromewebstore.google.com/detail/yeah-for-twitter/haebjcgjcobeedihnmhcapfblbjdaimb"><img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/HRs9MPufa1J1h5glNhut.png" alt="Chrome Web Store" width="200"/></a>
 
-Firefox, Waterfox, LibreWolf, Floorp, etc.:  
+Firefox, Waterfox, LibreWolf, Floorp, etc:  
 <a href="https://addons.mozilla.org/addon/yeah-for-twitter/"><img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt="Firefox Add-ons" width="200"/></a>
 
 Userscript (Tampermonkey, Greasemonkey, Violentmonkey, etc.):  
