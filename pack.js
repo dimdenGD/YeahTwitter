@@ -53,7 +53,7 @@ for(let i in manifest.content_scripts) {
             .replace(/chrome\.runtime\.getURL\('(.+?)'\)/gm, "'https://raw.githubusercontent.com/dimdenGD/YeahTwitter/main/$1'");
 
         for(let img of embeddedImages) {
-            code = code.replaceAll(`'https://raw.githubusercontent.com/dimdenGD/YeahTwitter/main/images/${img}'`, `YEAH_images['${img}']`)
+            code = code.replaceAll(`'https://raw.githubusercontent.com/dimdenGD/YeahTwitter/main/images/${img}'`, `YEAH_images['${img}']`);
         }
 
         fullCode += `\n\n// ${script.js[j]}\n` + code;

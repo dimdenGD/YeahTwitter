@@ -146,7 +146,7 @@ chrome.storage.local = {
     }
 };
 
-if(typeof GM_registerMenuCommand !== 'undefined') {
+if(this.GM_registerMenuCommand) {
     GM_registerMenuCommand("Don't like tweet on Yeah", function () {
         chrome.storage.local.set({
             settings: {
