@@ -169,3 +169,12 @@ GM_registerMenuCommand("Clear account tokens", function () {
 GM_registerMenuCommand("Reset popup settings", function () {
     chrome.storage.local.remove(['ignorePopup']);
 });
+
+let fontstyle = document.createElement('style');
+fontstyle.innerHTML = `
+@font-face {
+    font-family: 'RosettaIcons2';
+    src: url(data:application/x-font-woff;charset=utf-8;base64,{{font_url}});
+}
+`;
+document.head.appendChild(fontstyle);

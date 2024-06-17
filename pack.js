@@ -34,7 +34,10 @@ if(!fs.existsSync('./build')) {
 
 console.log("Creating userscript...");
 let manifest = JSON.parse(fs.readFileSync('./manifest.json', 'utf8'));
-let fullCode = fs.readFileSync('./us.js', 'utf8').replaceAll('${manifest.version}', manifest.version);
+let rosetta = fs.readFileSync('./fonts/rosetta.woff', 'base64');
+let fullCode = fs.readFileSync('./us.js', 'utf8')
+    .replaceAll('${manifest.version}', manifest.version)
+    .replaceAll('{{font_url}}', rosetta);
 for(let i in manifest.content_scripts) {
     let script = manifest.content_scripts[i];
     for(let j in script.js) {
