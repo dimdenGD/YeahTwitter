@@ -444,6 +444,7 @@ function hookIntoProfile() {
     if(window.location.pathname.startsWith('/compose/')) return;
     if(window.location.pathname.startsWith('/messages/')) return;
     if(window.location.pathname.includes('/communities/')) return;
+    if(window.location.pathname.includes('/status/')) return;
 
     let addedTab;
     let profileStats = document.querySelector('#profile-stats');

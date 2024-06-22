@@ -237,7 +237,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
 .user-item {
     margin-bottom: 5px
 }
-.follows-you-label {
+.yeah-users .follows-you-label {
     font-size: 11px;
     letter-spacing: .02em;
     text-transform: uppercase;

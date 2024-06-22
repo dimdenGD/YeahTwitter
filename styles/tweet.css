@@ -139,10 +139,10 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     font-weight: 700
 }
 
-.tweet-header-handle,
-.tweet-time,
-.tweet-header-handle-quote,
-.tweet-time-quote {
+.yeah-tweet .tweet-header-handle,
+.yeah-tweet .tweet-time,
+.yeah-tweet .tweet-header-handle-quote,
+.yeah-tweet .tweet-time-quote {
     color: var(--yeah-light-gray);
     direction: ltr;
     display: inline;
@@ -151,7 +151,7 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     unicode-bidi: embed
 }
 
-.tweet-body-text-span a {
+.yeah-tweet .tweet-body-text-span a {
     color: var(--yeah-link-color);
 }
 
@@ -165,13 +165,13 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     position: relative
 }
 
-.tweet-time::before {
+.yeah-tweet .tweet-time::before {
     color: var(--yeah-light-gray) !important;
     content: "\00b7";
     margin-right: 3px
 }
 
-.tweet-time:hover {
+.yeah-tweet .tweet-time:hover {
     color: var(--yeah-link-color);
     text-decoration: underline
 }
