@@ -230,6 +230,9 @@ function hookIntoTweets() {
                 }
             }
         });
+        button.closest("article").addEventListener("keydown", (e) => {
+            if(e.key === "y") button.click();
+        });
         button.addEventListener('mouseover', () => {
             button.querySelector('.yeah-image').src = chrome.runtime.getURL('images/yeah_on32.png');
         });
