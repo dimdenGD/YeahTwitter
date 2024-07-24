@@ -230,7 +230,7 @@ function hookIntoTweets() {
                 }
             }
         });
-        button.closest("article").addEventListener("keydown", (e) => {
+        tweet.addEventListener("keydown", (e) => {
             if(e.key === "y") button.click();
         });
         button.addEventListener('mouseover', () => {
