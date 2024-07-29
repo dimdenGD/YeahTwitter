@@ -11,7 +11,7 @@ Firefox, Waterfox, LibreWolf, Floorp, etc:
 <a href="https://addons.mozilla.org/addon/yeah-for-twitter/" target="_blank"><img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt="Firefox Add-ons" width="200"/></a>
 
 Userscript (Tampermonkey, Greasemonkey, Violentmonkey, etc):  
-### <a href="https://greasyfork.org/en/scripts/498118-yeah-for-twitter" target="_blank"><img src="https://greasyfork.org/vite/assets/blacklogo96-sWE0jP07.png" alt="Userscript" width="50"/>Userscript</a>
+### <a href="https://greasyfork.org/en/scripts/498118-yeah-for-twitter" target="_blank"><img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="Userscript" width="50"/>Userscript</a>
 ## Manual Installation
 1. Go to [Releases](https://github.com/dimdenGD/YeahTwitter/releases) page.
 2. Download `chrome.zip` if you're on Chromium based browsers (Chrome, Edge, Opera, Brave, etc.) or `firefox.zip` if you're on Firefox.
