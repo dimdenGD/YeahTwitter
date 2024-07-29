@@ -231,6 +231,7 @@ function hookIntoTweets() {
             }
         });
         tweet.addEventListener("keydown", (e) => {
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             if(e.key === "y") button.click();
         });
         button.addEventListener('mouseover', () => {
