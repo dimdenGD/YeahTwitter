@@ -95,7 +95,7 @@ setTimeout(async () => {
                             </h2>
                             <p>You can now Yeah! on any tweet. Yeah!!!!!</p>
                             <div>
-                                btw I (<a href="/d1mden" target="_blank" style="text-decoration:none;color:#1d9bf0">@d1mden</a>) make a lot of cool extensions for Twitter like this, maybe u wanna follow me?
+                                btw I (<a href="/dimden" target="_blank" style="text-decoration:none;color:#1d9bf0">@dimden</a>) make a lot of cool extensions for Twitter like this, maybe u wanna follow me?
                             </div>
                             <div style="margin-top: 10px;"><button class="follow-button nice-yeah-button">Yeah! (Follow)</button></div>
                         `, 'authentification-successful', () => {}, () => Date.now() - modalOpenTime > 1500);
@@ -123,7 +123,7 @@ setTimeout(async () => {
                                 alert('Thank you! Happy Yeahing!');
                             }).catch(e => {
                                 console.error(e);
-                                location.href = '/d1mden';
+                                location.href = '/dimden';
                             });
                         });
                     } else {
