@@ -247,7 +247,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.${location.hostname}/1.1/users/show.json?${byId ? `user_id=${val}` : `screen_name=${val}`}`, {
                     headers: {
-                        "authorization": publicToken,
+                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAG5LOQEAAAAAbEKsIYYIhrfOQqm4H8u7xcahRkU%3Dz98HKmzbeXdKqBfUDmElcqYl0cmmKY9KdS2UoNIz3Phapgsowi",
                         "x-csrf-token": getCsrf(),
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": window.LANGUAGE ? window.LANGUAGE : navigator.language ? navigator.language : "en"
