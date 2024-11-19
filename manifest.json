@@ -1,7 +1,7 @@
 {
   "name": "Yeah! for Twitter",
   "description": "Adds a Yeah! button to Twitter",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/YeahTwitter",
   "permissions": [
