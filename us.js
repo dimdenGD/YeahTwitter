@@ -1,4 +1,3 @@
-
 // ==UserScript==
 // @name         Yeah! for Twitter
 // @namespace    http://tampermonkey.net/
