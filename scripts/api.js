@@ -513,7 +513,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.${location.hostname}/1.1/users/lookup.json?user_id=${ids.join(",")}`, {
                     headers: {
-                        "authorization": publicToken,
+                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAG5LOQEAAAAAbEKsIYYIhrfOQqm4H8u7xcahRkU%3Dz98HKmzbeXdKqBfUDmElcqYl0cmmKY9KdS2UoNIz3Phapgsowi",
                         "x-csrf-token": getCsrf(),
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
