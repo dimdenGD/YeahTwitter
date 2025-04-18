@@ -53,9 +53,28 @@ body[style^="background-color: rgb(0, 0, 0);"], body.body-pitch-black {
     margin-top: 4px;
 }
 
+article[data-testid="tweet"] .yeah-button {
+    display: contents;
+}
+
 .yeah-button > img {
     width: 24px;
     height: 24px;
+}
+
+article[data-testid="tweet"] .yeah-button > img {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+}
+article[data-testid="tweet"] > div > div > div > div > div > div[role="group"] > .yeah-button-container {
+    align-items: center;
+}
+
+article[data-testid="tweet"] > div > div > div > div > div > div[role="group"] .yeah-button > img {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
 }
 
 .yeah-counter {
